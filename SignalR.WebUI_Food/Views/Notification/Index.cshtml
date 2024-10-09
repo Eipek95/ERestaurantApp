@@ -1,0 +1,66 @@
+﻿@model List<ResultNotificationViewModel>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">Bildirim İşlemleri</h4>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Bildirim Listesi</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-sub">
+                            Bildirim ile ilgili işlemleri aşağıdan gerçekleştirebilirsiniz.
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Bildirim Tipi</th>
+                                        <th>Bildirim Icon</th>
+                                        <th>Bildirim Açıklaması</th>
+                                        <th>Bildirim Tarihi</th>
+                                        <th>Bildirim Durumu</th>
+                                        <th>Sil</th>
+                                        <th>Güncelle</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <th scope="row">@item.ID</th>
+                                            <th scope="row">@item.Type</th>
+                                            <th scope="row"><i class="@item.Icon"></i></th>
+                                            <th scope="row">@item.Description</th>
+                                            <th scope="row">@item.Date</th>
+                                            <th scope="row">
+                                                <span style="color: @(item.Status ? "green" : "red")">
+                                                    @(item.Status ? "Okundu" : "Okunmadı")
+                                                </span>
+                                            </th>
+                                            <td><a href="/Notification/DeleteNotification/@item.ID" class="btn btn-outline-danger">Sil</a></td>
+                                            <td><a href="/Notification/UpdateNotification/@item.ID" class="btn btn-outline-success">Güncelle</a></td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                            <a href="/Notification/CreateNotification/" class="btn btn-outline-info">Yeni Bildirim Girişi</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,125 @@
+﻿  @{
+    ViewData["Title"] = "GiveACoupon";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+
+
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">İndirim Kodu Atama</h4>
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Yeni Kupon Atama</div>
+                        </div>
+                        <div class="card-body">
+                            
+                            <div class="row">
+                                <div class="col-md-12" hidden>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control mb-2" name="Id" value="@ViewBag.CouponId" >
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <h3>Üye Listesi</h3>
+                                        <input type="text" id="searchSource" class="form-control mb-2" placeholder="Ara...">
+                                        <select id="sourceList" class="form-select form-control" style="height:50vh;" multiple asp-items="ViewBag.userList">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <h3>Kupon Atanacak Üye Listesi</h3>
+                                        <input type="text" id="searchTarget" class="form-control mb-2" placeholder="Ara...">
+                                        <select id="targetList" class="form-select form-control" multiple style="height:50vh;" name="targetList" required></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <h3>Kupon Atanmış Üye Listesi</h3>
+                                        <input type="text" id="searchSelected" class="form-control mb-2" placeholder="Ara...">
+                                        <select id="selectedList" class="form-select form-control" style="height:50vh;" multiple asp-items="ViewBag.userList2" readonly>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-4">
+                                    <a id="btnAdd" class="btn btn-primary btn-add-remove form-control" style="color:white"><i class="la la-plus-square-o"></i> Ekle </a>
+                                </div>
+                                <div class="col-md-4">
+                                    <a id="btnRemove" class="btn btn-danger btn-add-remove form-control" style="color:white"><i class="la la-minus-square-o"></i> Kaldır</a>
+                                </div>
+                                <div class="col-md-4">
+                                   
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-action text-cemter">
+                            <button class="btn btn-success form-control" type="submit">Kupon Ata</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function searchList(input, list) {
+        var filter, options, option, i;
+        filter = input.value.toUpperCase();
+        options = list.getElementsByTagName("option");
+        for (i = 0; i < options.length; i++) {
+            option = options[i];
+            if (option.innerText.toUpperCase().indexOf(filter) > -1) {
+                option.style.display = "";
+            } else {
+                option.style.display = "none";
+            }
+        }
+    }
+
+    document.getElementById('searchSource').addEventListener('keyup', function () {
+        searchList(this, document.getElementById('sourceList'));
+    });
+
+    document.getElementById('searchTarget').addEventListener('keyup', function () {
+        searchList(this, document.getElementById('targetList'));
+    });
+    document.getElementById('searchSelected').addEventListener('keyup', function () {
+        searchList(this, document.getElementById('selectedList'));
+    });
+
+    document.getElementById('btnAdd').addEventListener('click', function () {
+        var sourceList = document.getElementById('sourceList');
+        var targetList = document.getElementById('targetList');
+
+        Array.from(sourceList.selectedOptions).forEach(option => {
+            targetList.appendChild(option);
+        });
+    });
+
+    document.getElementById('btnRemove').addEventListener('click', function () {
+        var sourceList = document.getElementById('sourceList');
+        var targetList = document.getElementById('targetList');
+
+        Array.from(targetList.selectedOptions).forEach(option => {
+            sourceList.appendChild(option);
+        });
+    });
+    document.getElementById('btnRemove').addEventListener('click', function () {
+        var sourceList = document.getElementById('sourceList');
+        var targetList = document.getElementById('targetList');
+
+        Array.from(targetList.selectedOptions).forEach(option => {
+            sourceList.appendChild(option);
+        });
+    });
+</script>

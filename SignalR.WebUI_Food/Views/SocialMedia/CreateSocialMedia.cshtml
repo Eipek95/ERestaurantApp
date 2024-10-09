@@ -1,0 +1,41 @@
+﻿@model CreateSocialMediaViewModel
+@{
+    ViewData["Title"] = "CreateSocialMedia";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="content">
+	<div class="container-fluid">
+		<h4 class="page-title">Sosyal Medya İşlemleri</h4>
+		<div class="row">
+			<div class="col-md-12">
+				<form method="post">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Yeni Sosyal Medya Girişi</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label asp-for="Title">Başlık</label>
+								<input type="text" class="form-control" asp-for="Title">
+							</div>
+							<div class="form-group">
+								<label asp-for="Url">Url</label>
+								<input type="text" class="form-control" asp-for="Url">
+							</div>
+							<div class="form-group">
+								<label asp-for="Icon">Icon</label>
+								<input type="text" class="form-control" asp-for="Icon">
+							</div>
+						</div>
+						<div class="card-action">
+							<button class="btn btn-outline-primary" type="submit">Ekle</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+

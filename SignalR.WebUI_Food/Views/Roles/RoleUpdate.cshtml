@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewData["Title"] = "RoleUpdate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model UpdateRoleViewModel
+
+
+<h4>Rol Düzenleme</h4>
+<hr />
+
+
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <form asp-action="RoleUpdate" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mb-3">
+                <label asp-for="Id" class="form-label">Rol ID</label>
+                <input type="text" class="form-control" asp-for="Id" readonly>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">Rol Adı</label>
+                <input type="text" class="form-control" asp-for="Name" aria-describedby="emailHelp">
+            </div>
+            <button type="submit" class="btn btn-success mt-3 form-control btn-sm">Güncelle</button>
+        </form>
+
+        <div class="mt-3">
+            <a asp-action="Index">Rol Listesine Geri Dön</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

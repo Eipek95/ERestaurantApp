@@ -1,0 +1,56 @@
+﻿@model List<ResultCategoryViewModel>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+    int count=0;
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">Kategori İşlemleri</h4>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Kategori Listesi</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-sub">
+                            Kategori ile ilgili işlemleri aşağıdan gerçekleştirebilirsiniz.
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Kategori Adı</th>
+                                        <th>Durumu</th>
+                                        <th>Sil</th>
+                                        <th>Güncelle</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        count++;
+                                        <tr>
+                                            <th scope="row">@count</th>
+                                            <td>@item.Name</td>
+                                            <td>@item.Status</td>
+                                            <td><a href="/Category/DeleteCategory/@item.Id" class="btn btn-outline-danger">Sil</a></td>
+                                            <td><a href="/Category/UpdateCategory/@item.Id" class="btn btn-outline-success">Güncelle</a></td>
+                                        </tr>
+                                    }
+                                    
+                                </tbody>
+                            </table>
+                            <a href="/Category/CreateCategory/" class="btn btn-outline-info">Yeni Kategori Girişi</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+

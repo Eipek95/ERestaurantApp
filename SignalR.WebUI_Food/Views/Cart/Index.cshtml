@@ -1,0 +1,196 @@
+﻿@model CardViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Ödeme Tamamla</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/burger/css/creditcard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SignalR.WebUI_Food.styles.css" asp-append-version="true" />
+</head>
+<body class="bg-light">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SignalR Restaurant</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Default" asp-action="Index">Anasayfa</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Basket" asp-action="Index">Sepetim</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            <div class="row">
+
+                <div class="col-md-12 mt-4">
+                    <h4 class="mb-3 text-center">Ödeme Bilgileri</h4>
+                    <hr />
+                    <div class="mb-3">
+                        <div class="container customcontainer">
+                            <div class="card-container">
+                                <div class="front">
+                                    <div class="image">
+                                        <img src="~/burger/images/chip.png" alt="chip" />
+                                        <img src="~/burger/images/visa.png" alt="chip" />
+                                    </div>
+                                    <div class="card-number-box">##################</div>
+                                    <div class="flexbox">
+                                        <div class="box">
+                                            <span>Kart Sahibi</span>
+                                            <div class="card-holder-name"></div>
+                                        </div>
+                                        <div class="box">
+                                            <span>Tarih</span>
+                                            <div class="expiration">
+                                                <span class="exp-month">MM</span>
+                                                <span class="exp-year">YY</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="back">
+                                    <div class="stripe"></div>
+                                    <div class="box">
+                                        <span>cvv</span>
+                                        <div class="cvv-box"></div>
+                                        <img src="/visa.png" alt="" />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label>Toplam Ödenecek Tutar(KDV Dahil)</label>
+                            <input type="text" class="form-control bg-info text-center text-dark" value="@Model.TotalPrice.ToString("#.##") ₺" readonly style="font-weight:bolder">
+                        </div>
+                    </div>
+                    <form asp-action="Index" asp-controller="Cart" method="post">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="CardNumber">Kart Numarası</label>
+                                <input type="text" min="0" maxlength="16" class="card-number-input form-control" asp-for="CardNumber">
+                                <span class="text-danger" asp-validation-for="CardNumber"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="CardName">Kart Sahibi</label>
+                                <input type="text" class="card-holder-input form-control " asp-for="CardName">
+                                <span class="text-danger" asp-validation-for="CardName"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="name">Geçerlilik Ay</label>
+                                <select class="month-input form-control" asp-for="ExpirationMonth">
+                                    <option value="ay" selected disabled>AY</option>
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                    <option value="05">05</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                                <span class="text-danger" asp-validation-for="ExpirationMonth"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="name">Geçerlilik Yıl</label>
+                                <select class="year-input form-control" asp-for="ExpirationYear">
+                                    <option value="yıl" selected disabled>YIL</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                    <option value="2026">2026</option>
+                                    <option value="2027">2027</option>
+                                    <option value="2028">2028</option>
+                                    <option value="2029">2029</option>
+                                    <option value="2030">2030</option>
+                                    <option value="2031">2031</option>
+                                </select>
+                                <span class="text-danger" asp-validation-for="ExpirationYear"></span>
+                            </div>
+
+
+
+                            <div class="col-md-12 mb-3">
+                                <label name="">CVV</label>
+                                <input type="text" maxlength="3" class="cvv-input form-control" asp-for="Cvv">
+                                <span class="text-danger" asp-validation-for="Cvv"></span>
+                            </div>
+
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="@Model.Address"></label>
+                            <textarea asp-for="@Model.Address" class="form-control" rows="5"></textarea>
+                            <span class="text-danger" asp-validation-for="Address"></span>
+                        </div>
+                        <div class="row" hidden>
+                            <div class="col-md-6 mb-3">
+                                <input asp-for="@Model.FirstName" class="form-control" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <input asp-for="@Model.LastName" class="form-control" />
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <input asp-for="@Model.City" class="form-control" />
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <input asp-for="@Model.Phone" class="form-control" />
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <input asp-for="@Model.Email" class="form-control" />
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <input asp-for="@Model.UserId" class="form-control" />
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <input asp-for="@Model.BasketId" class="form-control" />
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <input asp-for="@Model.TotalPrice" class="form-control" />
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-warning btn-lg form-control">Öde</button>
+
+                    </form>
+                </div>
+
+            </div>
+
+        </main>
+    </div>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/burger/js/creditcart.js"></script>
+</body>
+</html>

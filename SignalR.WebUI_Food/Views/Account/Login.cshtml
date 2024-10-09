@@ -1,0 +1,123 @@
+﻿@model LoginViewModel
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SignalR Restaurant Giriş Sayfası</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SignalR.WebUI_Food.styles.css" asp-append-version="true" />
+
+
+    <style>
+        
+    </style>
+</head>
+<body class="bg-dark">
+
+    <div class="container">
+        <div class="row mt-5 text-light">
+            <div class="text-center">
+                <h4>SignalR Restaurant Giriş Sayfası</h4>
+            </div>
+            <hr />
+
+            <div asp-validation-summary=ModelOnly class="alert alert-danger" role="alert">
+                @* burada controller tarafındaki string.empty keyine sahip errorlar gözükecektir.modelview içerisindeki hatalar her biri kendi altında gözkükür *@
+            </div>
+            @if (TempData["ErrorMessage"] != null)
+            {
+
+                <div class="alert alert-danger" role="alert">
+                    @TempData["ErrorMessage"]
+                </div>
+
+            }
+            @if (TempData["SuccessMessage"]!=null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
+            <form method="post">
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                        <div class="mb-3">
+                            <label asp-for="Mail" class="form-label"></label>
+                            <input type="text" class="form-control" asp-for="Mail">
+                            <span class="text-light bg-black float-end" asp-validation-for="Mail"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 offset-md-3">
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label"></label>
+                            <input type="password" class="form-control" asp-for="Password">
+                            <span class="text-light bg-black float-end" asp-validation-for="Password"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 offset-md-3 ">
+                        <div class="mb-3 form-check float-start">
+                            <input class="form-check-input" asp-for="RememberMe" />
+                            <label class="form-check-label" asp-for="RememberMe"></label>
+                        </div>
+                        <div class="mb-3 form-check float-end">
+                            <button type="button" class="btn btn-warning btn-sm text-dark" data-bs-toggle="modal" data-bs-target="#forgetPassword">
+                                Şifremi Unuttum
+                            </button>
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-6 offset-md-3">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-primary form-control">Giriş Yap</button>
+                            </div>
+                            <div class="col-md-6">
+                                <a asp-action="Index" asp-controller="Register" class="btn btn-success form-control">Hesap Oluştur</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="forgetPassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="exampleModalLabel">Şifre Yenileme Linki,E-Posta Adresinize Gönderilecektir.</h6>
+                </div>
+                <div class="modal-body">
+                    <form method="post" asp-action="ForgetPassword" asp-controller="Account">
+                        <div class="mb-3">
+                            <label asp-for="Mail" class="form-label"></label>
+                            <input type="text" class="form-control" asp-for="Mail">
+                            <span class="text-danger bg-white float-end" asp-validation-for="Mail"></span>
+                        </div>
+                        <div class="col-md-6 offset-md-3 my-4 text-center">
+                            <button type="submit" class="btn btn-success">Gönder</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Kapat</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>

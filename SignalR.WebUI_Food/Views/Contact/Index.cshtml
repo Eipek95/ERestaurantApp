@@ -1,0 +1,59 @@
+﻿@model List<ResultContactViewModel>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">Ana Sayfa İletişim Bilgi İşlemleri</h4>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">İletişim Listesi</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-sub">
+                            İletişim ile ilgili işlemleri aşağıdan gerçekleştirebilirsiniz.
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Konum</th>
+                                        <th>Telefon</th>
+                                        <th>Mail</th>
+                                        <th>Açıklama</th>
+                                        <th>Sil</th>
+                                        <th>Güncelle</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                      
+                                        <tr>
+                                            <th scope="row">@item.Id</th>
+                                            <td>@item.Location</td>
+                                            <td>@item.Phone</td>
+                                            <td>@item.Mail</td>
+                                            <td>@item.Description</td>
+                                            <td><a href="/Contact/DeleteContact/@item.Id" class="btn btn-outline-danger">Sil</a></td>
+                                            <td><a href="/Contact/UpdateContact/@item.Id" class="btn btn-outline-success">Güncelle</a></td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                            <a href="/Contact/CreateContact/" class="btn btn-outline-info">Yeni İletişim Bilgisi Girişi</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+

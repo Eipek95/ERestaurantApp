@@ -1,0 +1,62 @@
+﻿@model UpdateBookingViewModel
+@{
+    ViewData["Title"] = "UpdateBooking";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="content">
+	<div class="container-fluid">
+		<h4 class="page-title">Rezervasyon İşlemleri</h4>
+		<div class="row">
+			<div class="col-md-12">
+				<form method="post">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Rezervasyon Düzenleme</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<input type="hidden" class="form-control" asp-for="Id">
+							</div>
+							<div class="form-group">
+								<label asp-for="Name">Ad Soyad</label>
+								<input type="text" class="form-control" asp-for="Name">
+							</div>
+							<div class="form-group">
+								<label asp-for="Phone">Telefon Numarası</label>
+								<input type="text" class="form-control" asp-for="Phone">
+							</div>
+							<div class="form-group">
+								<label asp-for="Mail">Mail Adresi</label>
+								<input type="email" class="form-control" asp-for="Mail">
+							</div>
+							<div class="form-group">
+								<label asp-for="PersonCount">Kişi Sayısı</label>
+								<input type="number" class="form-control" min="0" asp-for="PersonCount">
+							</div>
+							<div class="form-group">
+								<label asp-for="Date">Rezervasyon Tarihi</label>
+								<input type="date" class="form-control" asp-for="Date">
+							</div>
+							<div class="form-check">
+								<label>Durumu</label><br />
+								<label class="form-radio-label">
+									<input class="form-radio-input" type="radio" asp-for="Status" value="Onaylandı" checked="">
+									<span class="form-radio-sign">Onayla</span>
+								</label>
+								<label class="form-radio-label ml-3">
+									<input class="form-radio-input" type="radio" asp-for="Status" value="İptal">
+									<span class="form-radio-sign">İptal</span>
+								</label>
+							</div>
+						</div>
+						<div class="card-action">
+							<button class="btn btn-outline-primary" type="submit">Ekle</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+

@@ -1,0 +1,59 @@
+﻿@model CreateProductViewModel
+@{
+    ViewData["Title"] = "CreateProduct";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="content">
+	<div class="container-fluid">
+		<h4 class="page-title">Ürün İşlemleri</h4>
+		<div class="row">
+			<div class="col-md-12">
+				<form method="post">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Yeni Ürün Girişi</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label asp-for="Name">Ürün Adı</label>
+								<input type="text" class="form-control" asp-for="Name">
+							</div>
+							<div class="form-group">
+								<label asp-for="Price">Ürün Fiyatı</label>
+								<input type="number" class="form-control" min="0" step=".01" asp-for="Price">
+							</div>
+							<div class="form-group">
+								<label asp-for="ImageUrl">Ürün Görseli</label>
+								<input type="text" class="form-control" asp-for="ImageUrl">
+							</div>
+							<div class="form-group">
+								<label asp-for="CategoryID">Ürün Kategorisi</label>
+								@Html.DropDownListFor(x => x.CategoryID, (List<SelectListItem>)ViewBag.cats,new{@class="form-control"})
+							</div>
+							<div class="form-group">
+								<label asp-for="Description">Ürün Açıklaması</label>
+								<textarea type="text" class="form-control" asp-for="Description" rows="3" cols="10"></textarea>
+							</div>
+							<div class="form-check">
+								<label>Durumu</label><br />
+								<label class="form-radio-label">
+									<input class="form-radio-input" type="radio" asp-for="Status" value="True" checked="">
+									<span class="form-radio-sign">Aktif</span>
+								</label>
+								<label class="form-radio-label ml-3">
+									<input class="form-radio-input" type="radio" asp-for="Status" value="False">
+									<span class="form-radio-sign">Pasif</span>
+								</label>
+							</div>
+						</div>
+						<div class="card-action">
+							<button class="btn btn-outline-primary" type="submit">Ekle</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+

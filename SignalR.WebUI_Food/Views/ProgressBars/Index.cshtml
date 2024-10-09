@@ -1,0 +1,211 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+@section ScriptsAdmin {
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(() => {
+            var connection = new signalR.HubConnectionBuilder()
+                .withAutomaticReconnect()
+                .withUrl("https://localhost:7146/SignalRHub").build();
+
+
+
+
+            start();
+
+            function start() {
+                connection.start()
+                    .then(function () {
+                        $("#loading").hide();
+
+                        setInterval(() => {
+                            connection.invoke("SendProgress");
+                        }, 1000);
+
+                        $("#conStatus").text("Bağlantı Açık");
+                    })
+                    .catch(function (err) {
+                        console.error(err.toString());
+                        $("#conStatus").text("Bağlantı Hatası");
+                        setTimeout(() => start(), 2000)
+                    });
+            }
+
+
+            connection.onreconnecting(err => {
+                $("#loading").show();
+                $("#conStatus").text("Bağlantı Bekleniyor");
+                console.log("onreconnecting:" + err);
+            });
+
+            connection.onreconnected(connectionId => {
+                $("#loading").hide();
+                $("#conStatus").text("Bağlantı Başarılı");
+                console.log("connectionId:" + connectionId);
+
+            });
+
+            connection.onclose(() => {
+                $("#loading").hide();
+                $("#conStatus").text("Bağlantı Hatası");
+                Start();
+            });
+
+
+
+            connection.on("RecieveTotalMoneyCaseAmount", (count) => {
+                $("#totCasAmount").text(count.toFixed(2) + " ₺");
+            });
+
+            connection.on("RecieveActiveOrderCount", (count) => {
+                $("#actOrdCount").text(count);
+            });
+
+            connection.on("RecieveMenuTableCount", (count) => {
+                $("#menTabCount").text(count);
+            });
+            connection.on("RecieveMenuTableCount", (count) => {
+                $("#ranGen").text(count);
+
+                var progressBar = document.querySelector(".progress-bar");
+                progressBar.style.width = count + "%";
+                progressBar.setAttribute("aria-valuenow", count);
+                progressBar.setAttribute("title", count + "%");
+            });
+
+            connection.on("RecieveProductPriceAvg", (count) => {
+                $("#avgPro").text(count);
+
+                var progressBar = document.querySelector(".avgProProgressBar");
+                progressBar.style.width = count + "%";
+                progressBar.setAttribute("aria-valuenow", count);
+                progressBar.setAttribute("title", count + "%");
+            });
+            connection.on("RecieveProductAvgPriceByHamburger", (count) => {
+                $("#avgHam").text(count);
+
+                var progressBar = document.querySelector(".avgProHamProgressBar");
+                progressBar.style.width = count + "%";
+                progressBar.setAttribute("aria-valuenow", count);
+                progressBar.setAttribute("title", count + "%");
+            });
+            connection.on("RecieveGetProductCountWithCategoryNameForDrink", (count) => {
+                $("#couDri").text(count);
+
+                var progressBar = document.querySelector(".couDrink");
+                progressBar.style.width = count + "%";
+                progressBar.setAttribute("aria-valuenow", count);
+                progressBar.setAttribute("title", count + "%");
+            });
+            
+        });
+    </script>
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">Admin İstatistikler & Durumlar</h4>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row row-card-no-pd">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="fw-bold mt-1">Kasadaki Toplam Tutar</p>
+                                <h4 id="totCasAmount"><b></b></h4>
+                                <a href="/Order/CreateOrder/" class="btn btn-primary btn-full text-left mt-3 mb-3"><i class="la la-plus"></i> Yeni Sipariş</a>
+                            </div>
+                            <div class="card-footer">
+                                <ul class="nav">
+                                    <li class="nav-item"><a class="btn btn-default btn-link" href="/Order/Index/"><i class="la la-history"></i> Siparişler</a></li>
+                                    <li class="nav-item ml-auto"><a class="btn btn-default btn-link" href="/ProgressBars/Index/"><i class="la la-refresh"></i> Sayfayı Yenile</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="progress-card">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span class="text-muted">Toplam Masa Sayısı</span>
+                                        <span class="text-muted fw-bold" id="ranGen"> </span>
+                                    </div>
+                                    <div class="progress mb-2" style="height: 7px;">
+                                        <div class="progress-bar bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" ></div>
+                                    </div>
+                                </div>
+                                <div class="progress-card">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span class="text-muted">Ortalama Ürün Fiyatı</span>
+                                        <span class="text-muted fw-bold" id="avgPro"></span>
+                                    </div>
+                                    <div class="progress mb-2" style="height: 7px;">
+                                        <div class="progress-bar bg-info avgProProgressBar" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top"></div>
+                                    </div>
+                                </div>
+                                <div class="progress-card">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span class="text-muted">Ortalama Hamburger Fiyatı</span>
+                                        <span class="text-muted fw-bold" id="avgHam"></span>
+                                    </div>
+                                    <div class="progress mb-2" style="height: 7px;">
+                                        <div class="progress-bar bg-primary avgProHamProgressBar" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top"></div>
+                                    </div>
+                                </div>
+                                <div class="progress-card">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span class="text-muted">İçecek Kategorisine Ait Ürün Sayısı</span>
+                                        <span class="text-muted fw-bold" id="couDri"> 60%</span>
+                                    </div>
+                                    <div class="progress mb-2" style="height: 7px;">
+                                        <div class="progress-bar bg-warning couDrink" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card card-stats">
+                            <div class="card-body">
+                                <p class="fw-bold mt-1">Restaurant Durum</p>
+                                <div class="row">
+                                    <div class="col-5">
+                                        <div class="icon-big text-center icon-warning">
+                                            <i class="la la-pie-chart text-warning"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-7 d-flex align-items-center">
+                                        <div class="numbers">
+                                            <p class="card-category">Aktif Siparişler</p>
+                                            <h4 class="card-title" id="actOrdCount"></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-5">
+                                        <div class="icon-big text-center">
+                                            <i class="la la-heart-o text-primary"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-7 d-flex align-items-center">
+                                        <div class="numbers">
+                                            <p class="card-category">Masa Sayısı</p>
+                                            <h4 class="card-title" id="menTabCount"></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,35 @@
+﻿<style>
+    #loginDown, #loginDown:hover, #loginDown:focus {
+        text-decoration: none;
+        background-color: transparent !important;
+    }
+</style>
+<div class="user_option">
+    @if (User.Identity!.IsAuthenticated)
+    {
+        <a href="/Basket/Index/" class="user_link mx-3">
+            <i class="fa fa-shopping-cart text-justify" aria-hidden="true"></i>
+            Sepetim
+        </a>
+
+        <div class="dropdown">
+            <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-user" aria-hidden="true"></i>  @User.Identity.Name
+            </button>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" asp-controller="MyProfile" asp-action="Index" id="loginDown">Profil</a>
+                <a class="dropdown-item" asp-controller="Account" asp-action="PasswordChange" id="loginDown">Şifre Değiştir</a>
+                <a class="dropdown-item" asp-controller="Account" asp-action="Logout" asp-route-returnurl="/Account/Login" id="loginDown">Çıkış Yap</a>
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <a href="/Account/Login/" class="btn btn-warning text-center" >
+            <i class="fa fa-user" aria-hidden="true"></i> Giriş Yap
+        </a>
+    }
+
+</div>

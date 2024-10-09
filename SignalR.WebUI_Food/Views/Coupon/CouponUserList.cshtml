@@ -1,0 +1,65 @@
+﻿@model List<ResultCouponUserListWithUserViewModel>
+@{
+    ViewData["Title"] = "CouponUserList";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">Kupon Atanan Kullanıcılar</h4>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Kupon Atanan Kullanıcılar Listesi</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-sub">
+                            Kupon Atanan Kullanıcılar ile ilgili işlemleri aşağıdan gerçekleştirebilirsiniz.
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Kupon ID</th>
+                                        <th>Adı</th>
+                                        <th>Soyad</th>
+                                        <th>Kupon Atama Tarihi</th>
+                                        <th>Kupon Durumu</th>
+                                        <th>Sil</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                       
+                                        <tr>
+                                            <td>#</td>
+                                            <td>@item.CouponId</td>
+                                            <td>@item.AppUserName</td>
+                                            <td>@item.AppUserSurname</td>
+                                            <td>@item.CreatedDate</td>
+                                            @if (item.Status)
+                                            {
+                                                <td class="text-success">Aktif</td>
+                                            }
+                                            else
+                                            {
+                                                <td class="text-danger">Pasif</td>
+                                            }
+                                            <td><a asp-action="CouponUserListDelete" asp-asp-controller="Coupon" asp-route-couponUserId="@item.Id" asp-route-couponId="@item.CouponId" class="btn btn-outline-danger form-control">Sil</a></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <a href="/Coupon/CreateCoupon/" class="btn btn-outline-info">Yeni Kupon Oluştur</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+

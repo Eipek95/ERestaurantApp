@@ -1,0 +1,126 @@
+﻿@model List<ResultSliderViewModel>
+
+<div class="hero_area">
+    <div class="bg-box">
+        <img src="~/burger/images/hero-bg.jpg" alt="">
+    </div>
+    <!-- header section strats -->
+    <header class="header_section">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg custom_nav-container ">
+                <a class="navbar-brand" href="index.html">
+                    <span>
+                        SignalR Restaurant
+                    </span>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class=""> </span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav  mx-auto ">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Default/Index">AnaSayfa </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Menu/Index">Menü</a>
+                        </li>
+                       @*  <li class="nav-item">
+                            <a class="nav-link" href="/AboutUI/Index">Hakkımızda </a>
+                        </li> *@
+                        <li class="nav-item">
+                            <a class="nav-link" href="/BookATable/Index">Rezervasyon</a>
+                        </li>
+                    </ul>
+                    <partial name="_UILoginNavbar"></partial>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- end header section -->
+    @foreach (var item in Model)
+    {
+
+        <section class="slider_section ">
+            <div id="customCarousel1" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="container ">
+                            <div class="row">
+                                <div class="col-md-7 col-lg-6 ">
+                                    <div class="detail-box">
+                                        <h1>
+                                            @item.Title1
+                                        </h1>
+                                        <p>
+                                            @item.Description1
+                                        </p>
+                                        <div class="btn-box">
+                                            <a href="/Menu/Index/" class="btn1">
+                                                Sipariş Ver
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item ">
+                        <div class="container ">
+                            <div class="row">
+                                <div class="col-md-7 col-lg-6 ">
+                                    <div class="detail-box">
+                                        <h1>
+                                            @item.Title2
+                                        </h1>
+                                        <p>
+                                            @item.Description2
+                                        </p>
+                                        <div class="btn-box">
+                                            <a href="/Menu/Index/" class="btn1">
+                                                Sipariş Ver
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="container ">
+                            <div class="row">
+                                <div class="col-md-7 col-lg-6 ">
+                                    <div class="detail-box">
+                                        <h1>
+                                            @item.Title3
+                                        </h1>
+                                        <p>
+                                            @item.Description3
+                                        </p>
+                                        <div class="btn-box">
+                                            <a href="/Menu/Index/" class="btn1">
+                                                Sipariş Ver
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <ol class="carousel-indicators">
+                        <li data-target="#customCarousel1" data-slide-to="0" class="active"></li>
+                        <li data-target="#customCarousel1" data-slide-to="1"></li>
+                        <li data-target="#customCarousel1" data-slide-to="2"></li>
+                    </ol>
+                </div>
+            </div>
+
+        </section>
+    }
+</div>
+
+
+

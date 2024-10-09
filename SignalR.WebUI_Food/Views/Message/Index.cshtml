@@ -1,0 +1,89 @@
+﻿@{
+    Layout = "~/Views/UILayout/Index.cshtml";
+
+}
+
+
+
+@await Component.InvokeAsync("_UILayoutNavbarComponentPartial")
+
+<section class="food_section layout_padding">
+    <div class="container">
+
+        <div class="heading_container heading_center row mt-5">
+            <div class="col-12">
+                <h2 class="text-center mb-4">
+                    Signal R Restaurant Anlık Mesajlaşma
+                </h2>
+            </div>
+
+
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <div class="row p-1">
+                    <div class="col-3">Kullanıcı Adınız</div>
+                    <div class="col-9">
+                        <input type="text" id="userInput" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="row p-1">
+                    <div class="col-3">Mesajınız</div>
+                    <div class="col-9">
+                        <textarea type="text" id="messageInput" class="form-control" rows="5" cols="10"></textarea>
+                    </div>
+                </div>
+
+
+                <div class="row p-1">
+                    <div class="col-3"></div>
+                    <div class="col-9">
+                        <input type="button" id="sendButton" value="Gönder" class="btn btn-warning form-control" />
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="col-6">
+                <div class="row p-1">
+                    <div class="col-12">
+                        <div class="alert alert-warning text-dark">
+                            <div class="float-start">
+                                Bağlantı Durumu:<strong id="conStatus"></strong>
+                            </div>
+                            <div class="clearflix"></div>
+                            <br>
+                        </div>
+                        <hr />
+                    </div>
+                </div>
+                <div class="row p-1">
+                    <div class="col-12">
+                        <ul id="messageList" class="list-group">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+@section ScriptsUI {
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Body elementine "new-class" adında bir class ekleyelim
+            $('body').addClass('sub_page');
+        });
+    </script>
+
+    <script src="~/js/chat.js"></script>
+
+}

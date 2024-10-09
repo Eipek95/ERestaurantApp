@@ -1,0 +1,135 @@
+﻿@model Tuple<List<ResultProductViewModel>,List<ResultCategoryViewModel>>
+<section class="food_section layout_padding-bottom">
+    <div class="container">
+        <div class="heading_container heading_center">
+            <h2>
+                Menümüz
+            </h2>
+        </div>
+
+        <ul class="filters_menu">
+
+            <li class="active" data-filter="*">Hepsi</li>
+            @foreach (var item in Model.Item2)
+            {
+                <li data-filter=".@item.Name.ToLower()">@item.Name</li>
+                
+            }
+            
+        </ul>
+
+        <div class="filters-content">
+            <div class="row grid">
+                @foreach (var item in Model.Item1)
+                {
+                    <div class="col-sm-6 col-lg-4 all @item.CategoryName.ToLower()">
+                        <div class="box">
+                            <div>
+                                <div class="img-box">
+                                    <img src="@item.ImageUrl" alt="">
+                                </div>
+                                <div class="detail-box">
+                                    <div class="row justify-content-around">
+                                        <h5>
+                                            @item.Name
+                                        </h5>
+                                        <h5 class="bg-dark  font-italic">
+                                            @item.Price ₺
+                                        </h5>
+                                    </div>
+                                    <hr class="bg-warning" />
+                                    <p class="text-right">
+                                        @item.Description
+                                    </p>
+
+                                    <div class="row">
+                                        <div class="col-md-10 offset-md-1">
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <button class="btn btn-outline-secondary" type="button" id="button-minus">-</button>
+                                                </div>
+                                                <input type="number" class="form-control text-center bg-light" value="1" min="1" readonly id="input-value">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-secondary" type="button" id="button-plus">+</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-10 offset-md-1">
+                                            <button href="#" onclick="showproductId(@item.Id)" class="btn btn-warning form-control">
+                                                <i class="fa fa-shopping-cart" aria-hidden="true" id="Capa_1"></i> Sepete Ekle
+                                            </button>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+               
+            </div>
+        </div>
+        <div class="btn-box">
+            <a href="/Menu/Index">
+                Daha Fazlasını Gör
+            </a>
+        </div>
+    </div>
+</section>
+
+
+
+<script>
+    function showproductId(value) {
+        var id = value;
+        $.ajax({
+            type: 'POST',
+            data: { item: id },
+            url: "/Menu/AddBasket/" + id,
+            contentType: 'json',
+            success: function () {
+                swal("Seçilen Ürün ID: " + id, "Sepete Başarıyla Eklendi", "success");
+            },
+            error: function (xhr, status, error) {
+
+                swal({
+                    title: "Hata",
+                    text: "Lütfen Sepete Ürün Eklemeden Önce Üye Girişi Yapın.",
+                    icon: "error",
+                    timer: 3000,
+                    buttons: false
+                }).then(() => {
+
+                    window.location.href = "/Account/Login/";
+                });
+            }
+        })
+    }
+</script>
+
+<script>
+    var minusButtons = document.querySelectorAll("#button-minus");
+    var plusButtons = document.querySelectorAll("#button-plus");
+
+    minusButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            var input = button.parentElement.nextElementSibling;
+            var value = parseInt(input.value);
+            if (value > 1) {
+                input.value = value - 1;
+            }
+        });
+    });
+
+    // Her bir artı butonun click event'ini belirleyelim
+    plusButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            var input = button.parentElement.previousElementSibling;
+            input.value = parseInt(input.value) + 1;
+        });
+    });
+</script>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

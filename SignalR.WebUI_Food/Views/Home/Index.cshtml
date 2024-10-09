@@ -1,0 +1,96 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+@section ScriptsAdmin {
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(() => {
+            var connection = new signalR.HubConnectionBuilder()
+                .withAutomaticReconnect()
+                .withUrl("https://localhost:7146/SignalRHub").build();
+            
+
+
+
+            start();
+
+
+
+            function start() { //sayfa ilk açıldığında bağlantı koparsa tekrar bağlantı sağlamak amaçlı böyle bişey yazdık
+
+                connection.start() // Bağlantıyı başlat
+                    .then(function () {
+                        $("#loading").hide();
+                        
+                        setInterval(() => {
+                            connection.invoke("SendStatisticsCount");
+                        }, 1000);
+
+                        $("#conStatus").text("Bağlantı Açık");
+                    })
+                    .catch(function (err) {
+                        console.error(err.toString());
+                        $("#conStatus").text("Bağlantı Hatası");
+                        setTimeout(() => start(), 2000)
+                    });
+            }
+
+
+            connection.onreconnecting(err => {
+                $("#loading").show();
+                $("#conStatus").text("Bağlantı Bekleniyor");
+                console.log("onreconnecting:" + err);
+            });
+
+            connection.onreconnected(connectionId => {
+                $("#loading").hide();
+                $("#conStatus").text("Bağlantı Başarılı");
+                console.log("connectionId:" + connectionId);
+
+            });
+
+            connection.onclose(() => {
+                $("#loading").hide();
+                $("#conStatus").text("Bağlantı Hatası");
+                Start();
+            });
+
+
+            
+            connection.on("RecieveCategoryCount", (count) => {
+                $("#catCount").text(count);
+            });
+        });
+    </script>
+}
+
+<div class="container">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12 mt-5">
+
+
+
+                <div class="alert alert-info mt-5">
+                    <div class="float-start">
+                        Bağlantı Durumu:<strong id="conStatus"></strong>,
+                        Kategori Sayısı:<strong id="catCount"></strong>
+                    </div>
+                    <div class="float-end">
+                        <div id="loading" class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="clearflix"></div>
+                    <br>
+                </div>
+
+            </div>
+        </div>
+        
+
+    </div>
+</div>

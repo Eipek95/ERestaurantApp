@@ -1,0 +1,24 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+
+@await Component.InvokeAsync("_UILayoutHeadComponentPartial")
+
+<body>
+
+    <!-- book section -->
+    @RenderBody()
+    <!-- end book section -->
+    <!-- footer section -->
+    @await Component.InvokeAsync("_UILayoutFooterComponentPartial")
+    <!-- footer section -->
+    @await Component.InvokeAsync("_UILayoutScriptComponentPartial")
+    @await RenderSectionAsync("ScriptsUI", required: false)
+
+</body>
+
+</html>
+

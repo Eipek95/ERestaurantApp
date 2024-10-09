@@ -1,0 +1,30 @@
+﻿@model List<ResultCouponUserListWithActiveCouponListViewModel>
+
+
+
+<div class="col-md-12">
+    <table class="table table-striped table-responsive ">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Kupon Kodu</th>
+                <th scope="col">İndirim Oranı</th>
+                <th scope="col">Oluşturulma Tarihi</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">@item.CouponId</th>
+                    <td>@item.Coupon.Code</td>
+                    <td>@item.CouponDiscountAmount</td>
+                    <td>@item.CreatedDate</td>
+                    <td><a asp-controller="Menu" asp-action="Index" class="btn btn-warning btn-sm">Kuponu Kullan</a> </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

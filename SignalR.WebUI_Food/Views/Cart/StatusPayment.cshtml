@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "StatusPayment";
+    Layout = null;
+}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Ödeme Tamamla</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SignalR.WebUI_Food.styles.css" asp-append-version="true" />
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+    </style>
+</head>
+<body class="bg-light">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Default" asp-action="Index">SignalR Restaurant</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </nav>
+
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3 mt-5">
+            <div class="row">
+
+                @if (ViewBag.StatusErrorMessage != null)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        <div class="text-center">
+                            <h4 class="alert-heading text-light">Ödeme Başarısız!</h4>
+                            <p>@ViewBag.StatusErrorMessage</p>
+                            <hr>
+                            <p class="mb-0">Siparişinizle ilgili herhangi bir sorunuz varsa, lütfen bizimle iletişime geçin.</p>
+                            <a asp-controller="Default" asp-action="Index" class="btn btn-success mt-3">Ana Sayfaya Geri Dön</a>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-success" role="alert">
+                        <div class="text-center">
+                            <h4 class="alert-heading text-light">Ödeme Başarılı!</h4>
+                            <p>Ödeme Tamamlandı.Siparişiniz en kısa zamanda hazırlanıp kuryemiz ile teslim edilecektir.Lezzetli Günler diler,bizi tercih ettiğiniz için teşekkür ederiz :)</p>
+                            <hr>
+                            <p class="mb-0">Siparişinizle ilgili herhangi bir sorunuz varsa, lütfen bizimle iletişime geçin.</p>
+                            <a asp-controller="Default" asp-action="Index" class="btn btn-success mt-3">Ana Sayfaya Geri Dön</a>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+
+        </main>
+    </div>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

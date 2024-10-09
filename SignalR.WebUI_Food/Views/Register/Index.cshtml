@@ -1,0 +1,107 @@
+﻿@model RegisterViewModel
+@{
+
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SignalR Restaurant Kayıt</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SignalR.WebUI_Food.styles.css" asp-append-version="true" />
+
+</head>
+<body class="bg-dark">
+
+
+    <div class="container text-light">
+        <div class="row mt-5">
+            <div class="text-center">
+                <h4>SignalR Restaurant Kullanıcı Kayıt</h4>
+            </div>
+            <hr />
+
+            <div asp-validation-summary=ModelOnly class="alert alert-danger" role="alert">
+                @* burada controller tarafındaki string.empty keyine sahip errorlar gözükecektir.modelview içerisindeki hatalar her biri kendi altında gözkükür *@
+            </div>
+
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+
+                <div class="alert alert-success" role="alert">
+                    <div class="float-start">
+                        @TempData["SuccessMessage"]
+                    </div>
+                    <div class="float-end">
+                        <a asp-controller="Account" asp-action="Login">Giriş Yap</a>
+                    </div>
+                </div>
+
+            }
+
+            <form method="post">
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label">Adınız</label>
+                            <input type="text" class="form-control" asp-for="Name">
+                            <span asp-validation-for="Name" class="text-light bg-black float-end"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 offset-md-3">
+                        <div class="mb-3">
+                            <label asp-for="Surname" class="form-label">Soyadınız</label>
+                            <input type="text" class="form-control" asp-for="Surname">
+                            <span asp-validation-for="Surname" class="text-light bg-black float-end"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 offset-md-3">
+                        <div class="mb-3">
+                            <label asp-for="Username" class="form-label">Kullanıcı Adınız</label>
+                            <input type="text" class="form-control" asp-for="Username">
+                            <span asp-validation-for="Username" class="text-light bg-black float-end"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 offset-md-3">
+                        <div class="mb-3">
+                            <label asp-for="Mail" class="form-label">Email Adresiniz</label>
+                            <input type="email" class="form-control" asp-for="Mail" aria-describedby="emailHelp">
+                            <span asp-validation-for="Mail" class="text-light bg-black float-end"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 offset-md-3">
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label">Parola</label>
+                            <input type="password" class="form-control" asp-for="Password">
+                            <span asp-validation-for="Password" class="text-light bg-black float-end"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center">
+
+                    <div class="col-md-4 offset-md-4">
+                        <button type="submit" class="btn btn-primary form-control">Kayıt Ol</button>
+                    </div>
+                    <div class="col-md-4  offset-md-4 mt-3">
+                        <a asp-action="Login" asp-controller="Account" class="btn btn-success form-control">Giriş Yap</a>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>

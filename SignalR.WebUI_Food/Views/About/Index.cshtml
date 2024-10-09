@@ -1,0 +1,54 @@
+﻿@model List<ResultAboutViewModel>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">Ana Sayfa Hakkımızda İşlemleri</h4>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Hakkımızda Listesi</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-sub">
+                            Hakkımızda alanı ile ilgili işlemleri aşağıdan gerçekleştirebilirsiniz.
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Başlık</th>
+                                        <th>Açıklama</th>
+                                        <th>Sil</th>
+                                        <th>Güncelle</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <th scope="row">@item.Id</th>
+                                            <td>@item.Title</td>
+                                            <td>@item.Description</td>
+                                            <td><a href="/About/DeleteAbout/@item.Id" class="btn btn-outline-danger">Sil</a></td>
+                                            <td><a href="/About/UpdateAbout/@item.Id" class="btn btn-outline-success">Güncelle</a></td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                            <a href="/About/CreateAbout/" class="btn btn-outline-info">Yeni Hakkımda Yazısı Girişi</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+

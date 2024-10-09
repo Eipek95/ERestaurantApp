@@ -1,0 +1,114 @@
+﻿
+@{
+	ViewData["Title"] = "TableListByStatus";
+	Layout = "~/Views/AdminLayout/Index.cshtml";
+
+}
+
+
+@section ScriptsAdmin {
+	<script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(() => {
+			var connection = new signalR.HubConnectionBuilder()
+				.withAutomaticReconnect()
+				.withUrl("https://localhost:7146/SignalRHub").build();
+
+
+
+
+			start();
+
+			function start() {
+				connection.start()
+					.then(function () {
+						$("#loading").hide();
+
+						setInterval(() => {
+							connection.invoke("GetMenuTableStatus");
+						}, 1000);
+
+						$("#conStatus").text("Bağlantı Açık");
+					})
+					.catch(function (err) {
+						console.error(err.toString());
+						$("#conStatus").text("Bağlantı Hatası");
+						setTimeout(() => start(), 2000)
+					});
+			}
+
+
+			connection.onreconnecting(err => {
+				$("#loading").show();
+				$("#conStatus").text("Bağlantı Bekleniyor");
+				console.log("onreconnecting:" + err);
+			});
+
+			connection.onreconnected(connectionId => {
+				$("#loading").hide();
+				$("#conStatus").text("Bağlantı Başarılı");
+				console.log("connectionId:" + connectionId);
+
+			});
+
+			connection.onclose(() => {
+				$("#loading").hide();
+				$("#conStatus").text("Bağlantı Hatası");
+				Start();
+			});
+
+
+
+			connection.on("RecieveGetMenuTableStatus", (value) => {
+				let tablehtml=``;
+				var color = "";
+				var status = "";
+				value.forEach(function (item, index) {
+					
+
+					if (item.status == false) {
+						color="card card-stats card-success";
+						status = "Masa Boş";
+					}
+					else {
+						color = "card card-stats card-danger";
+						status = "Masa Dolu";
+
+					}
+					tablehtml += `<div class="col-md-3">
+										<div class="${color}">
+											<div class="card-body ">
+												<div class="row">
+													<div class="col-5">
+														<div class="icon-big text-center">
+															<i class="la la-certificate"></i>
+														</div>
+													</div>
+													<div class="col-7 d-flex align-items-center">
+														<div class="numbers">
+															<p class="card-category">${item.name}</p>
+															<h4 class="card-title">${status}</h4>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>`
+				});
+				$(".row").html(tablehtml);
+				
+			});
+		});
+	</script>
+}
+
+<div class="content">
+	<div class="container-fluid">
+		<h4 class="page-title">Anlık Masa Durumları Sayfası</h4>
+        <div class="row">
+           
+		</div>
+	</div>
+</div>
+
+
