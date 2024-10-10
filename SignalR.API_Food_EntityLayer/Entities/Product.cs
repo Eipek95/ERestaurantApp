@@ -10,7 +10,6 @@ namespace SignalR.API_Food_EntityLayer.Entities
         public decimal Price { get; set; }
         public string Description { get; set; }
         public bool Status { get; set; }
-
         public int CategoryID { get; set; }
         [JsonIgnore]
         public Category? Category { get; set; }

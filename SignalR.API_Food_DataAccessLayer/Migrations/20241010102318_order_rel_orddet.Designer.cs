@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SignalR.API_Food_DataAccessLayer.Concrete;
 
@@ -11,9 +12,11 @@ using SignalR.API_Food_DataAccessLayer.Concrete;
 namespace SignalR.API_Food_DataAccessLayer.Migrations
 {
     [DbContext(typeof(SignalRContext))]
-    partial class SignalRContextModelSnapshot : ModelSnapshot
+    [Migration("20241010102318_order_rel_orddet")]
+    partial class order_rel_orddet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,7 +153,7 @@ namespace SignalR.API_Food_DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Abouts", (string)null);
+                    b.ToTable("Abouts");
                 });
 
             modelBuilder.Entity("SignalR.API_Food_EntityLayer.Entities.AppRole", b =>
@@ -293,7 +296,7 @@ namespace SignalR.API_Food_DataAccessLayer.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Basket", (string)null);
+                    b.ToTable("Basket");
                 });
 
             modelBuilder.Entity("SignalR.API_Food_EntityLayer.Entities.Booking", b =>
@@ -328,7 +331,7 @@ namespace SignalR.API_Food_DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Bookings", (string)null);
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("SignalR.API_Food_EntityLayer.Entities.Cart", b =>
@@ -352,7 +355,7 @@ namespace SignalR.API_Food_DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Carts", (string)null);
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("SignalR.API_Food_EntityLayer.Entities.CartItem", b =>
@@ -378,7 +381,7 @@ namespace SignalR.API_Food_DataAccessLayer.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("CartItem", (string)null);
+                    b.ToTable("CartItem");
                 });
 
             modelBuilder.Entity("SignalR.API_Food_EntityLayer.Entities.Category", b =>
@@ -398,7 +401,7 @@ namespace SignalR.API_Food_DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("SignalR.API_Food_EntityLayer.Entities.Contact", b =>
@@ -443,7 +446,7 @@ namespace SignalR.API_Food_DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Contacts", (string)null);
+                    b.ToTable("Contacts");
                 });
 
             modelBuilder.Entity("SignalR.API_Food_EntityLayer.Entities.Coupon", b =>
@@ -466,7 +469,7 @@ namespace SignalR.API_Food_DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Coupons", (string)null);
+                    b.ToTable("Coupons");
                 });
 
             modelBuilder.Entity("SignalR.API_Food_EntityLayer.Entities.CouponUser", b =>
@@ -496,7 +499,7 @@ namespace SignalR.API_Food_DataAccessLayer.Migrations
 
                     b.HasIndex("CouponId");
 
-                    b.ToTable("CouponUsers", (string)null);
+                    b.ToTable("CouponUsers");
                 });
 
             modelBuilder.Entity("SignalR.API_Food_EntityLayer.Entities.Discount", b =>
@@ -525,7 +528,7 @@ namespace SignalR.API_Food_DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Discounts", (string)null);
+                    b.ToTable("Discounts");
                 });
 
             modelBuilder.Entity("SignalR.API_Food_EntityLayer.Entities.Feature", b =>
@@ -562,7 +565,7 @@ namespace SignalR.API_Food_DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Features", (string)null);
+                    b.ToTable("Features");
                 });
 
             modelBuilder.Entity("SignalR.API_Food_EntityLayer.Entities.MenuTable", b =>
@@ -582,7 +585,7 @@ namespace SignalR.API_Food_DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MenuTables", (string)null);
+                    b.ToTable("MenuTables");
                 });
 
             modelBuilder.Entity("SignalR.API_Food_EntityLayer.Entities.Message", b =>
@@ -621,7 +624,7 @@ namespace SignalR.API_Food_DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Messages", (string)null);
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("SignalR.API_Food_EntityLayer.Entities.MoneyCase", b =>
@@ -637,7 +640,7 @@ namespace SignalR.API_Food_DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MoneyCases", (string)null);
+                    b.ToTable("MoneyCases");
                 });
 
             modelBuilder.Entity("SignalR.API_Food_EntityLayer.Entities.Notification", b =>
@@ -668,7 +671,7 @@ namespace SignalR.API_Food_DataAccessLayer.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Notifications", (string)null);
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("SignalR.API_Food_EntityLayer.Entities.Order", b =>
@@ -706,7 +709,7 @@ namespace SignalR.API_Food_DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("SignalR.API_Food_EntityLayer.Entities.OrderDetail", b =>
@@ -732,7 +735,7 @@ namespace SignalR.API_Food_DataAccessLayer.Migrations
 
                     b.HasIndex("ProductID");
 
-                    b.ToTable("OrderDetails", (string)null);
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("SignalR.API_Food_EntityLayer.Entities.Product", b =>
@@ -768,7 +771,7 @@ namespace SignalR.API_Food_DataAccessLayer.Migrations
 
                     b.HasIndex("CategoryID");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("SignalR.API_Food_EntityLayer.Entities.Slider", b =>
@@ -805,7 +808,7 @@ namespace SignalR.API_Food_DataAccessLayer.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Sliders", (string)null);
+                    b.ToTable("Sliders");
                 });
 
             modelBuilder.Entity("SignalR.API_Food_EntityLayer.Entities.SocialMedia", b =>
@@ -830,7 +833,7 @@ namespace SignalR.API_Food_DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SocialMedias", (string)null);
+                    b.ToTable("SocialMedias");
                 });
 
             modelBuilder.Entity("SignalR.API_Food_EntityLayer.Entities.Testimonial", b =>
@@ -862,7 +865,7 @@ namespace SignalR.API_Food_DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Testimonials", (string)null);
+                    b.ToTable("Testimonials");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

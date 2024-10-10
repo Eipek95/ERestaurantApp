@@ -10,5 +10,6 @@ namespace SignalR.API_Food_DataAccessLayer.Abstract
         decimal LastOrderPrice();
         decimal TodayTotalPrice();
         Task SaveOrder(Order order);
+        Task<List<Order>> GetOrderByOrderStatus(string orderStatus);
     }
 }

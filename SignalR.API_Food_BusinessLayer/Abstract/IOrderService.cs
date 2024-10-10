@@ -10,5 +10,6 @@ namespace SignalR.API_Food_BusinessLayer.Abstract
         decimal BLastOrderPrice();
         decimal BTodayTotalPrice();
         Task BSaveOrder(Order order);
+        Task<List<Order>> BGetOrderByOrderStatus(string orderStatus);
     }
 }

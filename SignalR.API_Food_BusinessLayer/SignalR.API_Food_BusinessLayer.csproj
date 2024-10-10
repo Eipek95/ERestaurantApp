@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SignalR.API_Food_DataAccessLayer\SignalR.API_Food_DataAccessLayer.csproj" />
+    <ProjectReference Include="..\SignalR.API_Food_DtoLayer\SignalR.API_Food_DtoLayer.csproj" />
   </ItemGroup>
 
 </Project>

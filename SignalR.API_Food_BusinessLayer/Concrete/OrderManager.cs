@@ -12,7 +12,11 @@ namespace SignalR.API_Food_BusinessLayer.Concrete
         {
             _orderDal = orderDal;
         }
-
+        public async Task<List<Order>> BGetOrderByOrderStatus(string orderStatus)
+        {
+            var orders = await _orderDal.GetOrderByOrderStatus(orderStatus);
+            return orders;
+        }
         public int BActiveOrderCount() => _orderDal.ActiveOrderCount();
         public void BAdd(Order entity)
         {
@@ -33,6 +37,8 @@ namespace SignalR.API_Food_BusinessLayer.Concrete
         {
             throw new NotImplementedException();
         }
+
+
 
         public decimal BLastOrderPrice() => _orderDal.LastOrderPrice();
 

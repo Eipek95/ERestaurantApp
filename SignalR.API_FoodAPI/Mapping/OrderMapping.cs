@@ -9,6 +9,7 @@ namespace SignalR.API_FoodAPI.Mapping
         public OrderMapping()
         {
             CreateMap<Order, CreateOrderDto>().ReverseMap();
+            CreateMap<Order, ResultOrderDto>().ReverseMap();
         }
     }
 }

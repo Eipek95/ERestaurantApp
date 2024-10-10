@@ -2,6 +2,7 @@
 using SignalR.API_Food_BusinessLayer.Concrete;
 using SignalR.API_Food_DataAccessLayer.Abstract;
 using SignalR.API_Food_DataAccessLayer.EntityFramework;
+using System.Reflection;
 
 namespace SignalR.API_FoodAPI.Extensions
 {
@@ -77,6 +78,8 @@ namespace SignalR.API_FoodAPI.Extensions
             services.AddScoped<ICartDal, EfCartDal>();
 
 
+
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
         }
     }
 }

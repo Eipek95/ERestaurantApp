@@ -1,6 +1,8 @@
-﻿namespace SignalR.API_Food_EntityLayer.Entities
+using SignalR.API_Food_DtoLayer.OrderDetailDto;
+
+namespace SignalR.API_Food_DtoLayer.OrderDto
 {
-    public class Order
+    public class ResultOrderDto
     {
         public int Id { get; set; }
         public int CartId { get; set; }
@@ -11,6 +13,6 @@
         public DateTime Date { get; set; }
         public string UserId { get; set; } = null!;
         public string? OrderStatus { get; set; }
-        public List<OrderDetail>? OrderDetails { get; set; }
+        public List<ResultOrderDetailDto>? OrderDetails { get; set; }
     }
 }

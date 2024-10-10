@@ -1,7 +1,6 @@
 using SignalR.API_Food_DataAccessLayer.Concrete;
 using SignalR.API_FoodAPI.Extensions;
 using SignalR.API_FoodAPI.Hubs;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,10 +26,6 @@ builder.Services.AddSignalR();
 builder.Services.AddDbContext<SignalRContext>();
 builder.Services.AddScopeWithextension();
 
-
-
-
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

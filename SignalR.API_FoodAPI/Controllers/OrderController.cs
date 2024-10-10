@@ -19,7 +19,7 @@ namespace SignalR.API_FoodAPI.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("TotalOrderCount")]
         public IActionResult TotalOrderCount() => Ok(_orderService.BTotalOrderCount());
         [HttpGet("ActiveOrderCount")]
         public IActionResult ActiveOrderCount() => Ok(_orderService.BActiveOrderCount());
@@ -33,10 +33,17 @@ namespace SignalR.API_FoodAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveOrder(CreateOrderDto orderDto)
         {
+            orderDto.Date = DateTime.Now;
             var order = _mapper.Map<Order>(orderDto);
             await _orderService.BSaveOrder(order);
             return Ok();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetOrderByOrderStatus(string orderStatus)
+        {
+            var order = await _orderService.BGetOrderByOrderStatus(orderStatus);
+            return Ok(order);
+        }
     }
 }
