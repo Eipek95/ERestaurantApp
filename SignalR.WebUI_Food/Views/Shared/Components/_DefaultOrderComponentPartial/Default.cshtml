@@ -1,0 +1,131 @@
+﻿@model List<ResultOrderViewModel>
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .card-header {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+        .card-header button {
+            text-decoration: none;
+            color: #fff;
+            font-size: 1.2rem;
+        }
+
+    .table th, .table td {
+        vertical-align: middle;
+    }
+
+    .table img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+    }
+
+    .order-summary {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+
+        .order-summary strong {
+            color: #007bff;
+        }
+
+    .price-section {
+        font-size: 1.2rem;
+    }
+
+        .price-section strong {
+            color: #28a745;
+        }
+
+    .product-details h6 {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .product-details p {
+        font-size: 0.9rem;
+        margin-bottom: 0;
+    }
+
+    .product-details {
+        margin-left: 10px;
+    }
+</style>
+
+<div id="accordion">
+    @foreach (var item in Model)
+    {
+        <div class="card">
+            <div class="card-header" id="headingOrderInfo">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOrderInfo_@item.Id" aria-expanded="true" aria-controls="collapseOrderInfo">
+                        Sipariş Bilgileri (#@item.Id)
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapseOrderInfo_@item.Id" class="collapse" aria-labelledby="headingOrderInfo_@item.Id" data-parent="#accordion">
+                <div class="card-body">
+                    <!-- Sipariş Özeti -->
+                    <div class="order-summary d-flex justify-content-between">
+                        <p><strong>Sipariş Durumu:</strong> @item.OrderStatus</p>
+                        <p><strong>Sipariş Tarihi:</strong> @item.Date.ToShortDateString() @item.Date.ToShortTimeString()</p>
+                    </div>
+
+                    <!-- Ürün Detayları -->
+                    <table class="table table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Ürün</th>
+                                <th scope="col">Fiyat</th>
+                                <th scope="col">Adet</th>
+                                <th scope="col">Toplam</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item2 in item.OrderDetails)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-start">
+                                            <img src="@item2.Product.ImageUrl" alt="@item2.Product.Name" class="img-thumbnail">
+                                            <div class="product-details">
+                                                <h6>@item2.Product.Name</h6>
+                                                <p class="text-muted">@item2.Product.Description</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>@item2.Product.Price₺</td>
+                                    <td>@item2.Quantity</td>
+                                    <td>@(item2.Product.Price*item2.Quantity)₺</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <!-- Fiyat Detayları -->
+                    <div class="price-section d-flex justify-content-between">
+                        @if (item.DiscountCode!="yok")
+                        {
+                            <p><strong>Ödenen Ücret:</strong>  @item.DiscountPrice₺ <sup><del> @item.Price₺</del></sup> </p>
+                            <p><strong>İndirim Kodu:</strong> @item.DiscountCode?.ToUpper() (%@Convert.ToInt32(item.DiscountAmount) indirim)</p>
+                        }
+                        else
+                        {
+                            <p><strong>Ödenen Ücret:</strong> @item.Price₺</p>
+                        }
+                      
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    
+</div>
