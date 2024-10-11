@@ -90,5 +90,13 @@ namespace SignalR.API_FoodAPI.Controllers
             var values = _mapper.Map<ResultCouponUserListWithActiveCouponListDto>(_couponUserService.BGetCodeAvailable(code, userId));
             return Ok(values);
         }
+
+
+        [HttpGet("UpdateCouponUserByCodeAndUserId")]
+        public async Task<IActionResult> UpdateCouponUserByCodeAndUserId(string code, string userId)
+        {
+            await _couponUserService.BUpdateCouponUser(code, userId);
+            return Ok("Başarıyla Güncellendi");
+        }
     }
 }

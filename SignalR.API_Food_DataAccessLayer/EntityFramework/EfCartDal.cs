@@ -22,6 +22,20 @@ namespace SignalR.API_Food_DataAccessLayer.EntityFramework
 
         }
 
+        public async Task DeleteBasket(int cartId)
+        {
+            using var context = new SignalRContext();
+            var basket = context.Carts.Where(x => x.Id == cartId).Include(x => x.CartItems).FirstOrDefault();
+            basket.DiscountCode = "yok";
+            basket.DiscountRate = 0;
+            context.Carts.Update(basket);
+            foreach (var item in basket.CartItems)
+            {
+                context.CartItem.Remove(item);
+            }
+            await context.SaveChangesAsync();
+        }
+
         public async Task<Cart> GetBasket(string userId)
         {
             using var context = new SignalRContext();

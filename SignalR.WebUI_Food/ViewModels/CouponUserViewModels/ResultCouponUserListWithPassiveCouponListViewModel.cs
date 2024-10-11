@@ -1,4 +1,6 @@
-﻿namespace SignalR.WEB_Food.ViewModels.CouponUserViewModels
+﻿using SignalR.WEB_Food.ViewModels.CouponViewModels;
+
+namespace SignalR.WEB_Food.ViewModels.CouponUserViewModels
 {
     public class ResultCouponUserListWithPassiveCouponListViewModel
     {
@@ -7,7 +9,7 @@
         public int CouponId { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool Status { get; set; }
-        public string CouponCode { get; set; } = null!;
+        public ResultCouponViewModel Coupon { get; set; } = null!;
         public decimal CouponDiscountAmount { get; set; }
     }
 }

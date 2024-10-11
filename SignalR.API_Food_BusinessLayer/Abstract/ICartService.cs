@@ -7,7 +7,7 @@ namespace SignalR.API_Food_BusinessLayer.Abstract
         Task BInitializeCart(string userId);
         Task<Cart> BGetBasket(string userId);
         Task BSaveBasket(Cart basketTotalDto);
-        //Task BDeleteBasket(string userId);
+        Task BDeleteBasket(int cartId);
         Task BDeleteBasket(int cartId, int productId);
     }
 }

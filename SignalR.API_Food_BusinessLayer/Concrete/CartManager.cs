@@ -25,6 +25,8 @@ namespace SignalR.API_Food_BusinessLayer.Concrete
 
         public Task BDeleteBasket(int cartId, int productId) => _cartDal.DeleteBasket(cartId, productId);
 
+        public Task BDeleteBasket(int cartId) => _cartDal.DeleteBasket(cartId);
+
         public List<Cart> BGetAll() => _cartDal.GetAll();
 
         public Task<Cart> BGetBasket(string userId) => _cartDal.GetBasket(userId);

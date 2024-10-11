@@ -45,7 +45,11 @@ namespace SignalR.API_FoodAPI.Controllers
             await _cartService.BDeleteBasket(cartId, productId);
             return Ok("Başarıyla Silindi");
         }
-
-
+        [HttpDelete("DeleteBasketByCartId")]
+        public async Task<IActionResult> DeleteBasketByCartId(int cartId)
+        {
+            await _cartService.BDeleteBasket(cartId);
+            return Ok("Başarıyla Silindi");
+        }
     }
 }

@@ -45,5 +45,12 @@ namespace SignalR.API_FoodAPI.Controllers
             var order = await _orderService.BGetOrderByOrderStatus(orderStatus);
             return Ok(order);
         }
+
+        [HttpGet("GetOrderByUserId")]
+        public async Task<IActionResult> GetOrderByUserId(string userId)
+        {
+            var order = await _orderService.BGetOrderByUserId(userId);
+            return Ok(order);
+        }
     }
 }

@@ -54,5 +54,7 @@ namespace SignalR.API_Food_BusinessLayer.Concrete
         {
             throw new NotImplementedException();
         }
+
+        public Task<List<Order>> BGetOrderByUserId(string userId) => _orderDal.GetOrderByUserId(userId);
     }
 }

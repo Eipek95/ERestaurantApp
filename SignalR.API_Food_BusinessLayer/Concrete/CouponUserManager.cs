@@ -35,5 +35,7 @@ namespace SignalR.API_Food_BusinessLayer.Concrete
         public void BUpdate(CouponUser entity) => _couponUserDal.Update(entity);
 
         public CouponUser BGetCodeAvailable(string code, string userId) => _couponUserDal.GetCodeAvailable(code, userId);
+
+        public Task BUpdateCouponUser(string code, string userId) => _couponUserDal.UpdateCouponUser(code, userId);
     }
 }

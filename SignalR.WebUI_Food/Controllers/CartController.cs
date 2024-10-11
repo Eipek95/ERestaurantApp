@@ -5,10 +5,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SignalR.API_Food_EntityLayer.Entities;
+using SignalR.WEB_Food.Enums;
 using SignalR.WEB_Food.ViewModels.BasketViewModels;
 using SignalR.WEB_Food.ViewModels.CardViewModels;
 using SignalR.WEB_Food.ViewModels.CartViewModels;
+using SignalR.WEB_Food.ViewModels.OrderDetailViewModels;
+using SignalR.WEB_Food.ViewModels.OrderViewModels;
 using System.Security.Claims;
+using System.Text;
 
 namespace SignalR.WEB_Food.Controllers
 {
@@ -86,7 +90,6 @@ namespace SignalR.WEB_Food.Controllers
                 ViewBag.StatusErrorMessage = statusMessage;
                 return View();
             }
-
             return View();
         }
 
@@ -167,7 +170,49 @@ namespace SignalR.WEB_Food.Controllers
             }
 
             request.BasketItems = items;
-            return Payment.Create(request, options);
+            var paymentStatus = Payment.Create(request, options);
+
+            if (paymentStatus.Status == "success")
+            {
+                //sipariş tablosuna ekle
+                var order = new CreateOrderViewModel();
+                order.OrderStatus = OrderEnum.Hazirlaniyor.ToString();
+                order.Date = DateTime.Now;
+                order.Price = basket.TotalPrice();
+                order.UserId = basket.UserId;
+                order.CartId = basket.CartItems.First().CartId;
+                order.DiscountCode = basket.DiscountCode;
+                if (order.DiscountCode != "yok")
+                {
+                    order.DiscountPrice = basket.UpTotalPrice;
+                    order.DiscountAmount = basket.DiscountRate;
+                    order.DiscountCode = basket.DiscountCode;
+
+                    //ilgili kuponu false olarak işaretle
+                    var client3 = _httpClientFactory.CreateClient();
+                    await client3.GetAsync($"https://localhost:7146/api/CouponUser/UpdateCouponUserByCodeAndUserId?code={order.DiscountCode}&userId={order.UserId}");
+                }
+
+                foreach (var item in basket.CartItems)
+                {
+                    var orderDetail = new CreateOrderDetailViewModel();
+                    orderDetail.OrderId = 0;
+                    orderDetail.ProductID = item.ProductId;
+                    orderDetail.Quantity = item.Quantity;
+                    order.OrderDetails.Add(orderDetail);
+                }
+
+                //sepette kayıtlı olan kuponu sıfırla ve sepettekileri sil
+                var client2 = _httpClientFactory.CreateClient();
+                await client2.DeleteAsync($"https://localhost:7146/api/Cart/DeleteBasketByCartId?cartId={order.CartId}");
+
+
+                var client = _httpClientFactory.CreateClient();
+                var jsonData = JsonConvert.SerializeObject(order);
+                StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                var responseMessage = await client.PostAsync("https://localhost:7146/api/Order", stringContent);
+            }
+            return paymentStatus;
 
         }
 

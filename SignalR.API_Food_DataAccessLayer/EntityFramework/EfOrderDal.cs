@@ -26,6 +26,13 @@ namespace SignalR.API_Food_DataAccessLayer.EntityFramework
             return orders;
         }
 
+        public async Task<List<Order>> GetOrderByUserId(string userId)
+        {
+            using var context = new SignalRContext();
+            var orders = await context.Orders.Include(x => x.OrderDetails).ThenInclude(y => y.Product).Where(x => x.UserId == userId).ToListAsync();
+            return orders;
+        }
+
         public decimal LastOrderPrice()
         {
             using var context = new SignalRContext();

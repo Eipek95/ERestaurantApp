@@ -10,5 +10,6 @@ namespace SignalR.API_Food_DataAccessLayer.Abstract
         public List<CouponUser> GetCouponUserListWithActiveCouponListWithUserId(string userId);
         public List<CouponUser> GetCouponUserListWithPassiveCouponListWithUserId(string userId);
         public CouponUser GetCodeAvailable(string code, string userId);
+        public Task UpdateCouponUser(string code, string userId);
     }
 }
