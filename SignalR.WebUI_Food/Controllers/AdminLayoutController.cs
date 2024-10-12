@@ -22,6 +22,11 @@ namespace SignalR.WEB_Food.Controllers
             return View();
         }
 
+
+        public IActionResult Dashboard()
+        {
+            return View();
+        }
         [AllowAnonymous]
         public async Task<IActionResult> UserList()
         {
@@ -39,7 +44,6 @@ namespace SignalR.WEB_Food.Controllers
 
         public IActionResult Claims()
         {
-
             var userClaimList = User.Claims.Select(x => new ClaimViewModel
             {
                 Issuer = x.Issuer,
