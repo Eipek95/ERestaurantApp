@@ -21,10 +21,11 @@ namespace SignalR.API_Food_DataAccessLayer.EntityFramework
 
         public CouponUser GetCodeAvailable(string code, string userId)
         {
+
             using var context = new SignalRContext();
             var couponUser = context.CouponUsers.Where(x => x.AppUserId == userId).
                 Include(y => y.Coupon).
-                Where(x => x.Coupon.Code.ToLower() == code.ToLower() && x.Status == true).
+                Where(x => x.Coupon.Code.ToUpper() == code.ToUpper() && x.Status == true).
                 FirstOrDefault();
             return couponUser;
         }
@@ -60,8 +61,8 @@ namespace SignalR.API_Food_DataAccessLayer.EntityFramework
         public async Task UpdateCouponUser(string code, string userId)
         {
             using var context = new SignalRContext();
-            var couponUser = context.CouponUsers.Where(x => x.AppUserId == userId).Include(y => y.Coupon).
-                Where(x => x.Coupon.Code.ToLower() == code.ToLower() && x.Status == true).FirstOrDefault();
+            var couponUser = await context.CouponUsers.
+                Where(x => x.AppUserId == userId).Include(y => y.Coupon).Where(x => x.Coupon.Code.ToUpper() == code.ToUpper() && x.Status == true).FirstOrDefaultAsync();
             couponUser.Status = false;
             context.CouponUsers.Update(couponUser);
             await context.SaveChangesAsync();
