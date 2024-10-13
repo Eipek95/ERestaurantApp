@@ -50,7 +50,8 @@ namespace SignalR.API_FoodAPI.Controllers
         public async Task<IActionResult> GetOrderByUserId(string userId)
         {
             var order = await _orderService.BGetOrderByUserId(userId);
-            return Ok(order);
+            var orderDto = _mapper.Map<List<ResultOrderDto>>(order);
+            return Ok(orderDto);
         }
     }
 }

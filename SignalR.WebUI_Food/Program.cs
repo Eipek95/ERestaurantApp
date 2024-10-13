@@ -16,8 +16,6 @@ builder.Services.AddControllersWithViews(opt =>
 });
 
 
-
-
 builder.Services.AddHttpClient();
 builder.Services.AddDbContext<SignalRContext>();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));

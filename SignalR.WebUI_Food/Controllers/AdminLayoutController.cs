@@ -11,10 +11,12 @@ namespace SignalR.WEB_Food.Controllers
     public class AdminLayoutController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public AdminLayoutController(UserManager<AppUser> userManager)
+        public AdminLayoutController(UserManager<AppUser> userManager, IHttpClientFactory httpClientFactory)
         {
             _userManager = userManager;
+            _httpClientFactory = httpClientFactory;
         }
 
         public IActionResult Index()
@@ -51,6 +53,32 @@ namespace SignalR.WEB_Food.Controllers
                 Value = x.Value
             }).ToList();
             return View(userClaimList);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Json1()
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync("https://localhost:7146/api/Category/StatisticsGetCategoriesWithProductCountAsync");
+            var jsonData = await responseMessage.Content.ReadAsStringAsync();
+            return Json(jsonData);
+        }
+
+
+        public async Task<IActionResult> Json2(string date)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync($"https://localhost:7146/api/Product/DateSaleProductInOrder?date={date}");
+            var jsonData = await responseMessage.Content.ReadAsStringAsync();
+            return Json(jsonData);
+        }
+
+        public async Task<IActionResult> Json3()
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync($"https://localhost:7146/api/Product/GetWeeklySalesReport");
+            var jsonData = await responseMessage.Content.ReadAsStringAsync();
+            return Json(jsonData);
         }
     }
 }

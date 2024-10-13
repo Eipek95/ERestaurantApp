@@ -2,10 +2,11 @@
 
 namespace SignalR.API_Food_DataAccessLayer.Abstract
 {
-	public interface ICategoryDal : IGenericDal<Category>
-	{
-		public int GetCategoryCount();
-		public int GetActiveCategoryCount();
-		public int GetPassiveCategoryCount();
-	}
+    public interface ICategoryDal : IGenericDal<Category>
+    {
+        int GetCategoryCount();
+        int GetActiveCategoryCount();
+        int GetPassiveCategoryCount();
+        Task<List<Category>> GetAllCategoriesWithProductsAsync();
+    }
 }
