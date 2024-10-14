@@ -56,5 +56,9 @@ namespace SignalR.API_Food_BusinessLayer.Concrete
         }
 
         public Task<List<Order>> BGetOrderByUserId(string userId) => _orderDal.GetOrderByUserId(userId);
+
+        public string BTopSellingProduct() => _orderDal.TopSellingProduct();
+
+        public int BSellingProductCount() => _orderDal.SellingProductCount();
     }
 }

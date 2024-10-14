@@ -62,19 +62,49 @@ namespace SignalR.API_Food_DataAccessLayer.EntityFramework
             await context.SaveChangesAsync();
         }
 
+        public int SellingProductCount()
+        {
+            var today = DateTime.Today.Date;
+            using var context = new SignalRContext();
+            // Günlük satılan toplam ürün sayısını almak
+            var totalProductsSoldToday = context.OrderDetails
+                .Where(od => od.Order.Date.Date == today) // Bugüne ait siparişler
+                .Sum(od => od.Quantity); // Toplam satılan ürün sayısı
+            return totalProductsSoldToday;
+        }
+
         public decimal TodayTotalPrice()
         {
+            var today = DateTime.Today.Date;
             using var context = new SignalRContext();
-            return 0;
-            //var nowDate = DateTime.Parse(DateTime.Now.ToShortDateString());
-            //var values = context.Orders.Where(x => x.Date == nowDate && x.Description == "Hesap Ödendi").Sum(y => y.TotalPrice);
-            //return values;
+            var totalPrice = context.Orders.Where(x => x.Date.Date == today).Sum(o => o.DiscountCode == "yok" ? o.Price : (o.DiscountPrice.HasValue ? o.DiscountPrice.Value : o.Price));
+            return totalPrice;
+        }
+
+        public string TopSellingProduct()
+        {
+            var today = DateTime.Today.Date;
+            using var context = new SignalRContext();
+            // Günün siparişlerinden en çok satılan ürünü almak
+            var topSellingProduct = context.OrderDetails
+                .Where(od => od.Order.Date.Date == today) // Bugüne ait siparişler
+                .GroupBy(od => od.Product) // Ürün bazında gruplama
+                .Select(g => new
+                {
+                    Product = g.Key, // Ürün
+                    TotalQuantity = g.Sum(od => od.Quantity) // Toplam satılan miktar
+                })
+                .OrderByDescending(g => g.TotalQuantity) // En çok satılan ürüne göre sıralama
+                .FirstOrDefault().Product.Name; // En çok satılan ürünü al
+
+            return topSellingProduct;
         }
 
         public int TotalOrderCount()
         {
+            var today = DateTime.Now.Date;
             using var context = new SignalRContext();
-            return context.Orders.Count();
+            return context.Orders.Where(x => x.Date.Date == today).Count();
         }
     }
 }

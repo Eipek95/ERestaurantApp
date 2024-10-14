@@ -7,8 +7,10 @@ namespace SignalR.API_Food_DataAccessLayer.Abstract
         int TotalOrderCount();
         int ActiveOrderCount();
         int PassiveOrderCount();
+        int SellingProductCount();
         decimal LastOrderPrice();
         decimal TodayTotalPrice();
+        string TopSellingProduct();
         Task SaveOrder(Order order);
         Task<List<Order>> GetOrderByOrderStatus(string orderStatus);
         Task<List<Order>> GetOrderByUserId(string userId);

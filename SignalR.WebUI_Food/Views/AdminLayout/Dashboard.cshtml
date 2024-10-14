@@ -3,7 +3,7 @@
     Layout = "~/Views/AdminLayout/Index.cshtml";
 }
 
-<style>
+@* <style>
     .table thead th {
         color: #23CCEF;
         border-bottom-width: 2px;
@@ -13,50 +13,60 @@
         color: white;
 
     }
-</style>
+</style> *@
 
 <h1>Dashboard</h1>
 
 <div class="container-fluid">
     <h4 class="page-title">Dashboard</h4>
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div class="card card-warning">
                 <div class="card-header">
-                    <h6>  <i class="la la-bar-chart"></i> Günlük Satışlar</h6>
+                    <h6>  <i class="la la-money"></i> Günlük Satışlar</h6>
                 </div>
                 <div class="card-body" style="text-align: right;">
-                    <h2 class="card-title">10,500 ₺</h2>
+                    <h2 class="card-title" id="totalToday"></h2>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div class="card card-success">
                 <div class="card-header">
-                    <h6><i class="la la-bar-chart"></i> Günlük Online Satışlar</h6>
+                    <h6><i class="la la-bar-chart"></i> Günlük Sipariş Sayısı</h6>
                 </div>
                 <div class="card-body" style="text-align: right;">
-                    <h2 class="card-title">5,800 ₺</h2>
+                    <h2 class="card-title" id="totalTodayCount"></h2>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div class="card card-danger">
                 <div class="card-header">
-                    <h6><i class="la la-newspaper-o"></i> Popüler Menü Ürünleri</h6>
+                    <h6><i class="la la-star-o"></i> Günün Popüler Ürünü</h6>
                 </div>
                 <div class="card-body" style="text-align: right;">
-                    <h2 class="card-title">Pizza, Hamburger</h2>
+                    <h2 class="card-title" id="totalProduct"></h2>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card card-primary">
+            <div class="card card-info">
                 <div class="card-header">
-                    <h6> <i class="la la-check-circle"></i> Son 10 Sipariş</h6>
+                    <h6><i class="la la-check-circle-o"></i> Günün Satılan Ürün Sayısı</h6>
                 </div>
                 <div class="card-body" style="text-align: right;">
-                    <h2 class="card-title">10 Sipariş</h2>
+                    <h2 class="card-title" id="totalSellingProductCount"></h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h6> <i class="la la-calendar-check-o"></i> Tarih </h6>
+                </div>
+                <div class="card-body" style="text-align: right;">
+                    <h2 class="card-title" id="turkishDate"></h2>
                 </div>
             </div>
         </div>
@@ -95,7 +105,7 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header">
-                    <i class="fas fa-pie-chart"></i> Kategoriye Göre Ürün Dağılımı
+                    <i class="fas fa-pie-chart"></i> Kategoriye Göre Ürün Dağılımı (Adet)
                 </div>
                 <div class="card-body">
                     <div class="chart-container">
@@ -126,7 +136,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-hover table-bordered-bd-default table-dark">
+                        <table class="table table-hover table-bordered">
                             <thead>
                                 <tr>
                                     <th>Sipariş Numarası</th>
@@ -135,6 +145,7 @@
                                     <th>Ödenilen Tutar</th>
                                     <th>Durum</th>
                                     <th>Tarih</th>
+                                    <th>İşlemler</th>
                                 </tr>
                             </thead>
                             <tbody id="ordersTable"></tbody>
@@ -154,7 +165,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <table class="table table-hover table-bordered-bd-default table-dark">
+            <table class="table table-hover table-bordered">
                 <thead>
                     <tr>
                         <th>Ürün Resmi</th>
@@ -177,6 +188,77 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    
+    const turkishDays = ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"];
+    const turkishMonths = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+
+
+    const currentDate = new Date();
+    const dayName = turkishDays[currentDate.getDay() - 1];
+    const monthName = turkishMonths[currentDate.getMonth()];
+
+    const turkishDateString = `${currentDate.getDate()} ${monthName} ${currentDate.getFullYear()} ${dayName}`;
+    document.getElementById('turkishDate').textContent = turkishDateString;
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        // Haftalık satış verilerini almak için GET isteği gönder
+        $.ajax({
+            url: '/AdminLayout/Json7',
+            method: 'GET',
+            success: function (data) {
+                var parsedData = JSON.parse(data);
+                console.log(parsedData);
+                document.getElementById('totalToday').textContent = parsedData + " ₺";
+            },
+            error: function (xhr, status, error) {
+                console.error('Hata: ', error);
+            }
+        });
+
+
+        $.ajax({
+            url: '/AdminLayout/Json8',
+            method: 'GET',
+            success: function (data) {
+                var parsedData = JSON.parse(data);
+                console.log(parsedData);
+                document.getElementById('totalTodayCount').textContent = parsedData + " Adet";
+            },
+            error: function (xhr, status, error) {
+                console.error('Hata: ', error);
+            }
+        });
+        
+
+        $.ajax({
+            url: '/AdminLayout/Json9',
+            method: 'GET',
+            success: function (data) {
+                document.getElementById('totalProduct').textContent = data;
+            },
+            error: function (xhr, status, error) {
+                console.error('Hata: ', error);
+            }
+        });
+        $.ajax({
+            url: '/AdminLayout/Json10',
+            method: 'GET',
+            success: function (data) {
+                var parsedData = JSON.parse(data);
+                console.log(parsedData);
+                document.getElementById('totalSellingProductCount').textContent = parsedData + " Adet";
+            },
+            error: function (xhr, status, error) {
+                console.error('Hata: ', error);
+            }
+        });
+    });
+</script>
 <script>
     
       $(document).ready(function() {
@@ -205,8 +287,8 @@
                         datasets: [{
                             label: 'Günlük Satılan Ürünler (Adet)',
                             data: totalQuantitySold, // Satış miktarları
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Doldurma rengi
-                            borderColor: 'rgba(75, 192, 192, 1)', // Çizgi rengi
+                            backgroundColor: 'rgba(255, 159, 64, 0.5)',
+                            borderColor: 'rgba(255, 159, 64, 1)',
                             borderWidth: 2,
                             fill: true, // Çizginin altını doldur
                             tension: 1// Çizgiyi yumuşat
@@ -262,9 +344,9 @@ function loadChart(date) {
                     labels: labels, 
                     datasets: [{
                         label: 'Günlük Satışlar (Adet)',
-                        data: totalQuantitySold, 
-                        backgroundColor: 'rgba(75, 192, 192, 0.5)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
+                        data: totalQuantitySold,
+                        backgroundColor: 'rgba(255, 159, 64, 0.5)',
+                        borderColor: 'rgba(255, 159, 64, 1)',
                         borderWidth: 2
                     }]
                 },
@@ -393,7 +475,7 @@ $(document).ready(function() {
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Aylık Satışlar',
+                        label: 'Aylık Satışlar (₺)',
                         data: salesData,
                         backgroundColor: 'rgba(255, 159, 64, 0.5)',
                         borderColor: 'rgba(255, 159, 64, 1)',

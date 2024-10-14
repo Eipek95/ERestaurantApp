@@ -61,8 +61,12 @@ namespace SignalR.API_FoodAPI.Controllers
         public IActionResult GetAll()
         {
             var order = _orderService.BGetAll();
-            return Ok(order);
+            return Ok(order.OrderByDescending(x => x.Date));
         }
+        [HttpGet("TopSellingProduct")]
+        public IActionResult TopSellingProduct() => Ok(_orderService.BTopSellingProduct());
+        [HttpGet("SellingProductCount")]
+        public IActionResult SellingProductCount() => Ok(_orderService.BSellingProductCount());
 
         [HttpGet("SaveRandomOrder")]
         public async Task<IActionResult> SaveRandomOrder()
@@ -87,35 +91,58 @@ namespace SignalR.API_FoodAPI.Controllers
             //zamanı 10 kere değiştir
             for (int dateCount = 1; dateCount <= 10; dateCount++)
             {
+                var randomUserId = userIds[random.Next(userIds.Count)];
+                var randomCartId = userCart[randomUserId];
+                var order = new Order();
+                decimal top = 0;
+                order.OrderDetails = new List<OrderDetail>();
+
                 //değiştirdiğin zamana siparişleri ekle 100 tane
                 for (int i = 1; i < 5; i++)
                 {
-                    var randomUserId = userIds[random.Next(userIds.Count)];
-                    var randomCartId = userCart[randomUserId];
                     var randomQuantity = random.Next(1, 10);
-                    var selectedProduct = products[random.Next(1, 9)];
+                    var selectedProduct = products[random.Next(1, 4)];
+                    var isl = selectedProduct.Price * randomQuantity;
+                    top += isl;
+                    //var selectedProduct = products[random.Next(1, 9)];
 
-                    var order = new Order
+                    order.CartId = randomCartId;
+                    order.Price = top;
+                    order.DiscountPrice = null;
+                    order.DiscountAmount = null;
+                    order.DiscountCode = "yok";
+                    order.UserId = randomUserId;
+                    order.OrderStatus = enumValues.GetValue(random.Next(0, enumValues.Length))!.ToString();
+                    order.Date = randomDate;
+
+                    if (order.OrderDetails.Count == 0)
                     {
-                        CartId = randomCartId, // Rastgele CartId
-                        Price = selectedProduct.Price * randomQuantity, // Rastgele Price
-                        DiscountPrice = null, // DiscountPrice null
-                        DiscountAmount = null, // DiscountAmount null
-                        DiscountCode = "yok",
-                        UserId = randomUserId, // Rastgele kullanıcı seçimi
-                        OrderStatus = enumValues.GetValue(random.Next(0, enumValues.Length))!.ToString(),
-                        Date = randomDate,
-                        OrderDetails = new List<OrderDetail> {
-                            new OrderDetail
+                        order.OrderDetails.Add(new OrderDetail
+                        {
+                            OrderId = 0,
+                            ProductID = selectedProduct.Id,
+                            Quantity = randomQuantity,
+                        });
+                    }
+                    else
+                    {
+                        if (!order.OrderDetails.Any(x => x.ProductID == selectedProduct.Id))
+                        {
+                            order.OrderDetails.Add(new OrderDetail
                             {
                                 OrderId = 0,
                                 ProductID = selectedProduct.Id,
-                                Quantity = randomQuantity
-                            }
+                                Quantity = randomQuantity,
+                            });
                         }
-                    };
-                    await _orderService.BSaveOrder(order);
+                        else
+                        {
+                            var existingItem = order.OrderDetails.First(x => x.ProductID == selectedProduct.Id);
+                            existingItem.Quantity += randomQuantity;
+                        }
+                    }
                 }
+                await _orderService.BSaveOrder(order);
                 randomDate = GetRandomDate(startDate, endDate);
             }
 
