@@ -80,5 +80,30 @@ namespace SignalR.WEB_Food.Controllers
             var jsonData = await responseMessage.Content.ReadAsStringAsync();
             return Json(jsonData);
         }
+
+
+        public async Task<IActionResult> Json4()
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync($"https://localhost:7146/api/Order/GetAll");
+            var jsonData = await responseMessage.Content.ReadAsStringAsync();
+            return Json(jsonData);
+        }
+
+        public async Task<IActionResult> Json5(int orderId)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync($"https://localhost:7146/api/OrderDetail?orderId={orderId}");
+            var jsonData = await responseMessage.Content.ReadAsStringAsync();
+            return Json(jsonData);
+        }
+
+        public async Task<IActionResult> Json6()
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync($"https://localhost:7146/api/Product/GetYearlySalesReport");
+            var jsonData = await responseMessage.Content.ReadAsStringAsync();
+            return Json(jsonData);
+        }
     }
 }

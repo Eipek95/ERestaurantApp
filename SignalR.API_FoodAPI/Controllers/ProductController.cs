@@ -44,6 +44,12 @@ namespace SignalR.API_FoodAPI.Controllers
             var values = _productService.BGetWeeklySalesReport();
             return Ok(values);
         }
+        [HttpGet("GetYearlySalesReport")]
+        public IActionResult GetYearlySalesReport()
+        {
+            var values = _productService.BGetYearlySalesReport();
+            return Ok(values);
+        }
 
         [HttpPost]
         public IActionResult CreateProduct(CreateProductDto createProductDto)

@@ -1,4 +1,5 @@
-﻿using SignalR.API_Food_EntityLayer.Entities;
+﻿using SignalR.API_Food_DtoLayer.ProductDto;
+using SignalR.API_Food_EntityLayer.Entities;
 
 namespace SignalR.API_Food_DataAccessLayer.Abstract
 {
@@ -15,5 +16,6 @@ namespace SignalR.API_Food_DataAccessLayer.Abstract
         decimal ProductAvgPriceByHamburger();
         object DateSaleProductInOrder(string date);
         object GetWeeklySalesReport();
+        List<MonthlySalesReport> GetYearlySalesReport();
     }
 }

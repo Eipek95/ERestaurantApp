@@ -2,6 +2,7 @@
 using SignalR.API_Food_DataAccessLayer.Abstract;
 using SignalR.API_Food_DataAccessLayer.Concrete;
 using SignalR.API_Food_DataAccessLayer.Repositories;
+using SignalR.API_Food_DtoLayer.ProductDto;
 using SignalR.API_Food_EntityLayer.Entities;
 
 namespace SignalR.API_Food_DataAccessLayer.EntityFramework
@@ -129,6 +130,45 @@ namespace SignalR.API_Food_DataAccessLayer.EntityFramework
                            })
                 .ToList();
             return weeklySales;
+        }
+
+        public List<MonthlySalesReport> GetYearlySalesReport()
+        {
+            var context = new SignalRContext();
+            var year = DateTime.Now.Year;
+
+
+            var monthlySales = Enumerable.Range(1, 12)
+           .Select(month => new MonthlySalesReport
+           {
+               Month = new DateTime(year, month, 1).ToString("MMMM"),
+               TotalSales = 0
+           }).ToList();
+
+            var salesData = context.Orders
+             .Where(o => o.Date.Year == year)
+             .GroupBy(o => o.Date.Month)
+             .Select(g => new
+             {
+                 Month = g.Key,
+                 TotalSales = g.Sum(o =>
+                     o.DiscountCode == "yok"
+                         ? o.Price
+                         : (o.DiscountPrice.HasValue ? o.DiscountPrice.Value : o.Price))
+             })
+             .ToList();
+
+            // Elde edilen satış verilerini ilgili aya ekliyoruz
+            foreach (var data in salesData)
+            {
+                var monthReport = monthlySales.FirstOrDefault(m => m.Month == new DateTime(year, data.Month, 1).ToString("MMMM"));
+                if (monthReport != null)
+                {
+                    monthReport.TotalSales = data.TotalSales;
+                }
+            }
+
+            return monthlySales;
         }
     }
 }

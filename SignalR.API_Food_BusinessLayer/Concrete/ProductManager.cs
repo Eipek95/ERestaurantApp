@@ -1,5 +1,6 @@
 ﻿using SignalR.API_Food_BusinessLayer.Abstract;
 using SignalR.API_Food_DataAccessLayer.Abstract;
+using SignalR.API_Food_DtoLayer.ProductDto;
 using SignalR.API_Food_EntityLayer.Entities;
 
 namespace SignalR.API_Food_BusinessLayer.Concrete
@@ -60,5 +61,7 @@ namespace SignalR.API_Food_BusinessLayer.Concrete
         public object BDateSaleProductInOrder(string date) => _productDal.DateSaleProductInOrder(date);
 
         public object BGetWeeklySalesReport() => _productDal.GetWeeklySalesReport();
+
+        public List<MonthlySalesReport> BGetYearlySalesReport() => _productDal.GetYearlySalesReport();
     }
 }

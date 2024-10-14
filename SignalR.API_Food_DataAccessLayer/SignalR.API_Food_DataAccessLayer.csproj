@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SignalR.API_Food_DtoLayer\SignalR.API_Food_DtoLayer.csproj" />
     <ProjectReference Include="..\SignalR.API_Food_EntityLayer\SignalR.API_Food_EntityLayer.csproj" />
   </ItemGroup>
 

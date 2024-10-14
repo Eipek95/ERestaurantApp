@@ -30,7 +30,7 @@ namespace SignalR.API_Food_BusinessLayer.Concrete
 
         public List<Order> BGetAll()
         {
-            throw new NotImplementedException();
+            return _orderDal.GetAll();
         }
 
         public Order BGetById(int id)

@@ -10,7 +10,7 @@
     }
 
     .table tbody tr {
-        color: whitesmoke;
+        color: white;
 
     }
 </style>
@@ -120,19 +120,20 @@
 
     <div class="row mt-4">
         <div class="col-12">
-
             <div class="card">
                 <div class="card-header">
-                    <i class="fas fa-chart-area"></i> Son 10 Sipariş
+                    <i class="fas fa-chart-area"></i> Son Siparişler
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-hover table-bordered-bd-default table-dark">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Müşteri Adı</th>
-                                    <th>Toplam Tutar</th>
+                                    <th>Sipariş Numarası</th>
+                                    <th>İndirim Oranı(%)</th>
+                                    <th>İndirim Kodu</th>
+                                    <th>Ödenilen Tutar</th>
+                                    <th>Durum</th>
                                     <th>Tarih</th>
                                 </tr>
                             </thead>
@@ -141,9 +142,38 @@
                     </div>
                 </div>
             </div>
-            
         </div>
     </div>
+    <div class="modal fade" id="orderDetailsModal" tabindex="-1" role="dialog" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="orderDetailsModalLabel">Sipariş Detayları</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-hover table-bordered-bd-default table-dark">
+                <thead>
+                    <tr>
+                        <th>Ürün Resmi</th>
+                        <th>Ürün Adı</th>
+                        <th>Fiyat</th>
+                        <th>Miktar</th>
+                    </tr>
+                </thead>
+                <tbody id="orderDetailsTable">
+                </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -328,50 +358,140 @@ $(document).ready(function() {
    
 
     // Zamanla Satış Trendleri Verisi
-    const salesData = [1500, 2000, 1800, 2200, 2400, 3000, 3200, 2800, 3500];
-    var lineChart = new Chart(document.getElementById('lineChart'), {
-        type: 'line',
-        data: {
-            labels: ['1. Hafta', '2. Hafta', '3. Hafta', '4. Hafta', '5. Hafta', '6. Hafta', '7. Hafta', '8. Hafta', '9. Hafta'],
-            datasets: [{
-                label: 'Aylık Satışlar',
-                data: salesData,
-                backgroundColor: 'rgba(255, 159, 64, 0.5)',
-                borderColor: 'rgba(255, 159, 64, 1)',
-                borderWidth: 2,
-                fill: true
-            }]
+    $(document).ready(function () {
+         $.ajax({
+        url: '/AdminLayout/Json6', // Buraya kendi controller ve action method URL'nizi koyun
+        method: 'GET',
+        success: function (response) {
+            let jsonData;
+            try {
+                jsonData = JSON.parse(response); // Gelen veriyi JSON olarak parse et
+            } catch (error) {
+                console.error('JSON parse hatası:', error);
+                return;
+            }
+
+            // JSON verisinin dizide olup olmadığını kontrol et
+            if (!Array.isArray(jsonData)) {
+                console.error('Beklenen bir dizi değil:', jsonData);
+                return;
+            }
+
+            // Ay adları ve toplam satışlar için dizileri oluştur
+            const labels = [];
+            const salesData = [];
+
+            // JSON verisini işleyerek ay adlarını ve toplam satışları diziye ekle
+            for (let i = 0; i < jsonData.length; i++) {
+                labels.push(jsonData[i].month);
+                salesData.push(jsonData[i].totalSales);
+            }
+
+            // Chart.js grafiğini oluştur
+            var lineChart = new Chart(document.getElementById('lineChart'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Aylık Satışlar',
+                        data: salesData,
+                        backgroundColor: 'rgba(255, 159, 64, 0.5)',
+                        borderColor: 'rgba(255, 159, 64, 1)',
+                        borderWidth: 2,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
         },
-        options: {
-            responsive: true
+        error: function (error) {
+            console.error('Veri çekme sırasında hata:', error);
         }
+    });
     });
 
     // Sipariş Verileri
-    const orders = [
-        { orderId: 1, customerName: 'Ali Veli', totalAmount: 150, date: '2023-10-01' },
-        { orderId: 2, customerName: 'Ayşe Yılmaz', totalAmount: 300, date: '2023-10-02' },
-        { orderId: 3, customerName: 'Mehmet Demir', totalAmount: 200, date: '2023-10-03' },
-        { orderId: 4, customerName: 'Fatma Çelik', totalAmount: 250, date: '2023-10-04' },
-        { orderId: 5, customerName: 'Ahmet Can', totalAmount: 300, date: '2023-10-05' },
-        { orderId: 6, customerName: 'Zeynep Kaya', totalAmount: 350, date: '2023-10-06' },
-        { orderId: 7, customerName: 'Emre Polat', totalAmount: 400, date: '2023-10-07' },
-        { orderId: 8, customerName: 'Selin Tekin', totalAmount: 450, date: '2023-10-08' },
-        { orderId: 9, customerName: 'Oğuzhan Aydın', totalAmount: 500, date: '2023-10-09' },
-        { orderId: 10, customerName: 'Ceren Yurt', totalAmount: 550, date: '2023-10-10' }
-    ];
-
-    // Siparişleri tabloya ekleme
-    const ordersTable = document.getElementById('ordersTable');
-    orders.forEach(order => {
-        const row = `<tr>
-                            <td>${order.orderId}</td>
-                            <td>${order.customerName}</td>
-                            <td>${order.totalAmount} TL</td>
-                            <td>${order.date}</td>
-                         </tr>`;
-        ordersTable.innerHTML += row;
-    });
-
+       $(document).ready(function () {
+      $.ajax({
+          url: '/AdminLayout/Json4', // Controller'daki doğru Action methodu
+          type: 'GET',
+          success: function (data) {
+              const ordersTable = $('#ordersTable'); // Tablonun referansını al
     
+              // Gelen veriyi JSON formatına çevir
+              const orders = JSON.parse(data);
+    
+              // Verileri tabloya ekle
+              orders.forEach(order => {
+                  const orderDate = new Date(order.date);
+    
+                  // Yıl, ay ve gün değerlerini almak için formatla
+                  const formattedDate = orderDate.getFullYear() + '-' + 
+                  String(orderDate.getMonth() + 1).padStart(2, '0') + '-' + 
+                  String(orderDate.getDate()).padStart(2, '0');
+    
+    
+                  const discountAmount = order.discountAmount !== null ? order.discountAmount : '-';
+                  const discountPrice = order.discountPrice !== null ? order.discountPrice + ' ₺' : '-';
+                  const discountCode = order.discountCode !== "yok" ? order.discountCode : '-';
+    
+                  // Eğer discountPrice null değilse price'ı üzeri çizili yap ve discountPrice'ı göster
+                  const priceDisplay = order.discountPrice !== null 
+                      ? `<sup><del>${order.price} ₺</del></sup> ${order.discountPrice} ₺`
+                      : `${order.price} ₺`;
+    
+    
+                  const row = `<tr>
+                      <td>#${order.id}</td>
+                      <td>${discountAmount}</td>
+                      <td>${discountCode}</td>
+                      <td>${priceDisplay}</td>
+                      <td>${order.orderStatus}</td>
+                      <td>${formattedDate}</td>
+                      <td><button class="btn btn-primary view-order-btn" data-order-id="${order.id}">Siparişi Gör</button></td>
+                  </tr>`;
+                  ordersTable.append(row); // Tabloya yeni satırı ekle
+              });
+
+              $('.view-order-btn').click(function () {
+                const orderId = $(this).data('order-id');
+
+                // Sipariş detaylarını almak için AJAX
+                $.ajax({
+                    url: `/AdminLayout/Json5?orderId=${orderId}`,
+                    type: 'GET',
+                    success: function (orderDetails) {
+                        const detailsTable = $('#orderDetailsTable');
+                        detailsTable.empty(); // Önceki verileri temizle
+                        const products = JSON.parse(orderDetails);
+
+                        // Her bir ürünü modal popup'a ekle
+                        products.forEach(detail => {
+                            const product = detail.product;
+                            const row = `<tr>
+                                <td><img src="${product.imageUrl}" width="100"></td>
+                                <td>${product.name}</td>
+                                <td>${product.price} ₺</td>
+                                <td>${detail.quantity}</td>
+                            </tr>`;
+                            detailsTable.append(row);
+                        });
+
+                        // Modal'ı aç
+                        $('#orderDetailsModal').modal('show');
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Detayları alırken hata oluştu: ' + status + ' ' + error);
+                    }
+                });
+            });
+          },
+          error: function (xhr, status, error) {
+              console.error('AJAX Error: ' + status + error);
+          }
+      });
+    });
+      
 </script>

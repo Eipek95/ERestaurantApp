@@ -2,7 +2,8 @@
 
 namespace SignalR.API_Food_BusinessLayer.Abstract
 {
-	public interface IOrderDetailService : IGenericService<OrderDetail>
-	{
-	}
+    public interface IOrderDetailService : IGenericService<OrderDetail>
+    {
+        Task<List<OrderDetail>> BGetOrderDetailByOrderId(int orderId);
+    }
 }
