@@ -137,7 +137,7 @@
                         title: 'Seçilen Ürün ID: ' + id,
                         text: 'Sepete Başarıyla Eklendi',
                         showConfirmButton: false,
-                        timer: 750  //0.75 sn
+                        timer: 3000  //0.75 sn
                     });
                 },
                 error: function (xhr, status, error) {
@@ -148,7 +148,7 @@
                         title: 'Hata',
                         text: 'Lütfen Sepete Ürün Eklemeden Önce Üye Girişi Yapın.',
                         showConfirmButton: false,
-                        timer: 1500  // 1.5 saniye sonra otomatik kapanır
+                        timer: 3000  // 1.5 saniye sonra otomatik kapanır
                     }).then(() => {
                         window.location.href = "/Account/Login/";
                     });

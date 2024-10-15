@@ -95,7 +95,7 @@ namespace SignalR.API_Food_DataAccessLayer.EntityFramework
                     TotalQuantity = g.Sum(od => od.Quantity) // Toplam satılan miktar
                 })
                 .OrderByDescending(g => g.TotalQuantity) // En çok satılan ürüne göre sıralama
-                .FirstOrDefault().Product.Name; // En çok satılan ürünü al
+                .FirstOrDefault()?.Product?.Name; // En çok satılan ürünü al
 
             return topSellingProduct;
         }

@@ -3,64 +3,53 @@
     Layout = "~/Views/AdminLayout/Index.cshtml";
 }
 
-@* <style>
-    .table thead th {
-        color: #23CCEF;
-        border-bottom-width: 2px;
-    }
-
-    .table tbody tr {
-        color: white;
-
-    }
-</style> *@
 
 <h1>Dashboard</h1>
 
 <div class="container-fluid">
     <h4 class="page-title">Dashboard</h4>
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-4">
             <div class="card card-warning">
                 <div class="card-header">
-                    <h6>  <i class="la la-money"></i> Günlük Satışlar</h6>
+                    <h6>  <i class="la la-money"></i> Günlük Satışlar/Anlık </h6>
                 </div>
                 <div class="card-body" style="text-align: right;">
                     <h2 class="card-title" id="totalToday"></h2>
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
             <div class="card card-success">
                 <div class="card-header">
-                    <h6><i class="la la-bar-chart"></i> Günlük Sipariş Sayısı</h6>
+                    <h6><i class="la la-bar-chart"></i> Günlük Sipariş Sayısı/Anlık</h6>
                 </div>
                 <div class="card-body" style="text-align: right;">
                     <h2 class="card-title" id="totalTodayCount"></h2>
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
             <div class="card card-danger">
                 <div class="card-header">
-                    <h6><i class="la la-star-o"></i> Günün Popüler Ürünü</h6>
+                    <h6><i class="la la-star-o"></i> Günün Popüler Ürünü/Anlık</h6>
                 </div>
                 <div class="card-body" style="text-align: right;">
                     <h2 class="card-title" id="totalProduct"></h2>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="card card-info">
                 <div class="card-header">
-                    <h6><i class="la la-check-circle-o"></i> Günün Satılan Ürün Sayısı</h6>
+                    <h6><i class="la la-check-circle-o"></i> Günün Satılan Ürün Sayısı/Anlık</h6>
                 </div>
                 <div class="card-body" style="text-align: right;">
                     <h2 class="card-title" id="totalSellingProductCount"></h2>
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
             <div class="card card-primary">
                 <div class="card-header">
                     <h6> <i class="la la-calendar-check-o"></i> Tarih </h6>
@@ -77,7 +66,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <i class="fas fa-chart-line"></i> Haftalık Satış Grafiği (Pazartesi - Pazar)
+                    <i class="fas fa-chart-line"></i> Haftalık Satış Grafiği (Pazartesi - Pazar)/Anlık
                 </div>
                 <div class="card-body">
                     <div class="chart-container">
@@ -90,7 +79,7 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <p><i class="fas fa-chart-bar"></i> <b id="selectedDate"></b>  Tarihine ait Günlük Satış Sütun Grafiği </p>
-                    <input type="date" class="form-class" id="datePicker"/>
+                    <input type="date" class="form-class" id="datePicker" />
                 </div>
                 <div class="card-body">
                     <div class="chart-container">
@@ -105,7 +94,7 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header">
-                    <i class="fas fa-pie-chart"></i> Kategoriye Göre Ürün Dağılımı (Adet)
+                    <i class="fas fa-pie-chart"></i> Kategoriye Göre Ürün Dağılımı (Adet)/Anlık
                 </div>
                 <div class="card-body">
                     <div class="chart-container">
@@ -117,7 +106,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <i class="fas fa-chart-area"></i> Zamanla Satış Trendleri
+                    <i class="fas fa-chart-area"></i> Zamanla Satış Trendleri/Anlık
                 </div>
                 <div class="card-body">
                     <div class="chart-container">
@@ -156,33 +145,33 @@
         </div>
     </div>
     <div class="modal fade" id="orderDetailsModal" tabindex="-1" role="dialog" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="orderDetailsModalLabel">Sipariş Detayları</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <table class="table table-hover table-bordered">
-                <thead>
-                    <tr>
-                        <th>Ürün Resmi</th>
-                        <th>Ürün Adı</th>
-                        <th>Fiyat</th>
-                        <th>Miktar</th>
-                    </tr>
-                </thead>
-                <tbody id="orderDetailsTable">
-                </tbody>
-            </table>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
-          </div>
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="orderDetailsModalLabel">Sipariş Detayları</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Ürün Resmi</th>
+                                <th>Ürün Adı</th>
+                                <th>Fiyat</th>
+                                <th>Miktar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orderDetailsTable">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
 </div>
@@ -190,266 +179,330 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-    
+
     const turkishDays = ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"];
     const turkishMonths = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
-
-
     const currentDate = new Date();
     const dayName = turkishDays[currentDate.getDay() - 1];
     const monthName = turkishMonths[currentDate.getMonth()];
-
     const turkishDateString = `${currentDate.getDate()} ${monthName} ${currentDate.getFullYear()} ${dayName}`;
     document.getElementById('turkishDate').textContent = turkishDateString;
-</script>
 
 
-<script>
-    $(document).ready(function () {
-        // Haftalık satış verilerini almak için GET isteği gönder
+
+    // Sütun Grafiği Verisi
+    document.getElementById('datePicker').valueAsDate = new Date();
+    document.getElementById('selectedDate').innerText = new Date().toLocaleDateString();
+    var columnChart; // Grafiği global bir değişken olarak tanımla
+
+    function loadChart(date) {
         $.ajax({
-            url: '/AdminLayout/Json7',
+            url: '/AdminLayout/Json2?date=' + date, // Tarihi parametre olarak gönder
             method: 'GET',
             success: function (data) {
                 var parsedData = JSON.parse(data);
-                console.log(parsedData);
-                document.getElementById('totalToday').textContent = parsedData + " ₺";
-            },
-            error: function (xhr, status, error) {
-                console.error('Hata: ', error);
-            }
-        });
 
-
-        $.ajax({
-            url: '/AdminLayout/Json8',
-            method: 'GET',
-            success: function (data) {
-                var parsedData = JSON.parse(data);
-                console.log(parsedData);
-                document.getElementById('totalTodayCount').textContent = parsedData + " Adet";
-            },
-            error: function (xhr, status, error) {
-                console.error('Hata: ', error);
-            }
-        });
-        
-
-        $.ajax({
-            url: '/AdminLayout/Json9',
-            method: 'GET',
-            success: function (data) {
-                document.getElementById('totalProduct').textContent = data;
-            },
-            error: function (xhr, status, error) {
-                console.error('Hata: ', error);
-            }
-        });
-        $.ajax({
-            url: '/AdminLayout/Json10',
-            method: 'GET',
-            success: function (data) {
-                var parsedData = JSON.parse(data);
-                console.log(parsedData);
-                document.getElementById('totalSellingProductCount').textContent = parsedData + " Adet";
-            },
-            error: function (xhr, status, error) {
-                console.error('Hata: ', error);
-            }
-        });
-    });
-</script>
-<script>
-    
-      $(document).ready(function() {
-        // Haftalık satış verilerini almak için GET isteği gönder
-        $.ajax({
-            url: '/AdminLayout/Json3', 
-            method: 'GET',
-            success: function(data) {
-                var parsedData = JSON.parse(data); 
-
-                // Günleri ve satılan ürün miktarlarını ayıkla
-                var labels = parsedData.map(function(item) {
-                    var date = new Date(item.date); // Verilen tarihi Date formatına çevir
-                    return date.toLocaleDateString('tr-TR', { weekday: 'long' }); // Pazartesi, Salı vb. günleri göster
+                // Ürün adlarını ve satılan miktarları ayrıştır
+                var labels = parsedData.map(function (item) {
+                    return item.productName;
                 });
 
-                var totalQuantitySold = parsedData.map(function(item) {
+                var totalQuantitySold = parsedData.map(function (item) {
                     return item.totalQuantitySold;
                 });
 
-                // Haftalık satış çizgi grafiğini oluştur
-                var weeklySalesLineChart = new Chart(document.getElementById('weeklySalesLineChart'), {
-                    type: 'line', // Çizgi grafiği tipi
+                // Eğer bir önceki grafik varsa, önce onu yok et
+                if (columnChart) {
+                    columnChart.destroy();
+                }
+
+                // Sütun grafiği oluştur
+                columnChart = new Chart(document.getElementById('columnChart'), {
+                    type: 'bar',
                     data: {
-                        labels: labels, // Günler (Pazartesi - Pazar)
+                        labels: labels,
                         datasets: [{
-                            label: 'Günlük Satılan Ürünler (Adet)',
-                            data: totalQuantitySold, // Satış miktarları
+                            label: 'Günlük Satışlar (Adet)',
+                            data: totalQuantitySold,
                             backgroundColor: 'rgba(255, 159, 64, 0.5)',
                             borderColor: 'rgba(255, 159, 64, 1)',
-                            borderWidth: 2,
-                            fill: true, // Çizginin altını doldur
-                            tension: 1// Çizgiyi yumuşat
+                            borderWidth: 2
                         }]
                     },
                     options: {
                         responsive: true,
                         scales: {
                             y: {
-                                beginAtZero: true // Y ekseni sıfırdan başlasın
+                                beginAtZero: true
                             }
                         }
                     }
                 });
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.error('Hata: ', error);
             }
         });
+    }
+
+    $(document).ready(function () {
+        // Sayfa yüklendiğinde bugünün tarihiyle grafiği yükle
+        var today = document.getElementById('datePicker').value;
+        loadChart(today);
+
+        // DatePicker değiştiğinde grafiği güncelle ve seçilen tarihi başlıkta göster
+        $('#datePicker').change(function () {
+            var selectedDate = this.value;
+            document.getElementById('selectedDate').innerText = new Date(selectedDate).toLocaleDateString();
+            loadChart(selectedDate); // Yeni tarih ile grafiği yenile
+        });
     });
 
-    // Sütun Grafiği Verisi
-    document.getElementById('datePicker').valueAsDate = new Date();
-document.getElementById('selectedDate').innerText = new Date().toLocaleDateString();
 
-var columnChart; // Grafiği global bir değişken olarak tanımla
-
-function loadChart(date) {
-    $.ajax({
-        url: '/AdminLayout/Json2?date=' + date, // Tarihi parametre olarak gönder
-        method: 'GET',
-        success: function(data) {
-            var parsedData = JSON.parse(data);
-
-            // Ürün adlarını ve satılan miktarları ayrıştır
-            var labels = parsedData.map(function(item) {
-                return item.productName;
-            });
-
-            var totalQuantitySold = parsedData.map(function(item) {
-                return item.totalQuantitySold;
-            });
-
-            // Eğer bir önceki grafik varsa, önce onu yok et
-            if (columnChart) {
-                columnChart.destroy();
-            }
-
-            // Sütun grafiği oluştur
-            columnChart = new Chart(document.getElementById('columnChart'), {
-                type: 'bar',
-                data: {
-                    labels: labels, 
-                    datasets: [{
-                        label: 'Günlük Satışlar (Adet)',
-                        data: totalQuantitySold,
-                        backgroundColor: 'rgba(255, 159, 64, 0.5)',
-                        borderColor: 'rgba(255, 159, 64, 1)',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        },
-        error: function(xhr, status, error) {
-            console.error('Hata: ', error);
-        }
-    });
-}
-
-$(document).ready(function() {
-    // Sayfa yüklendiğinde bugünün tarihiyle grafiği yükle
-    var today = document.getElementById('datePicker').value;
-    loadChart(today);
-
-    // DatePicker değiştiğinde grafiği güncelle ve seçilen tarihi başlıkta göster
-    $('#datePicker').change(function() {
-        var selectedDate = this.value;
-        document.getElementById('selectedDate').innerText = new Date(selectedDate).toLocaleDateString();
-        loadChart(selectedDate); // Yeni tarih ile grafiği yenile
-    });
-});
-    
-    // Pasta Grafiği Verisi
-    var pieData = {
-        labels: [], // Dinamik olarak doldurulacak
-        datasets: [{
-            data: [], // Dinamik olarak doldurulacak
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.5)',
-                'rgba(54, 162, 235, 0.5)',
-                'rgba(255, 206, 86, 0.5)',
-                'rgba(75, 192, 192, 0.5)',
-                'rgba(153, 102, 255, 0.5)',
-                'rgba(255, 159, 64, 0.5)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    };
-
-    var pieChart = new Chart(document.getElementById('pieChart'), {
-        type: 'pie',
-        data: pieData,
-        options: {
-            responsive: true
-        }
-    });
-
-    // Sayfa yüklendiğinde AJAX çağrısını başlat
+    // Sipariş Verileri
     $(document).ready(function () {
         $.ajax({
-            url: '/AdminLayout/Json1', // Controller adını doğru şekilde ekle
+            url: '/AdminLayout/Json4', // Controller'daki doğru Action methodu
             type: 'GET',
             success: function (data) {
-                var jsonData = JSON.parse(data);
-                var labels = [];
-                var productCounts = [];
+                const ordersTable = $('#ordersTable'); // Tablonun referansını al
 
-                jsonData.forEach(function (category) {
-                    labels.push(category.categoryName);
-                    productCounts.push(category.productCount);
+                // Gelen veriyi JSON formatına çevir
+                const orders = JSON.parse(data);
+
+                // Verileri tabloya ekle
+                orders.forEach(order => {
+                    const orderDate = new Date(order.date);
+
+                    // Yıl, ay ve gün değerlerini almak için formatla
+                    const formattedDate = orderDate.getFullYear() + '-' +
+                        String(orderDate.getMonth() + 1).padStart(2, '0') + '-' +
+                        String(orderDate.getDate()).padStart(2, '0');
+
+
+                    const discountAmount = order.discountAmount !== null ? order.discountAmount : '-';
+                    const discountPrice = order.discountPrice !== null ? order.discountPrice + ' ₺' : '-';
+                    const discountCode = order.discountCode !== "yok" ? order.discountCode : '-';
+
+                    // Eğer discountPrice null değilse price'ı üzeri çizili yap ve discountPrice'ı göster
+                    const priceDisplay = order.discountPrice !== null
+                        ? `<sup><del>${order.price} ₺</del></sup> ${order.discountPrice} ₺`
+                        : `${order.price} ₺`;
+
+
+                    const row = `<tr>
+                              <td>#${order.id}</td>
+                              <td>${discountAmount}</td>
+                              <td>${discountCode}</td>
+                              <td>${priceDisplay}</td>
+                              <td>${order.orderStatus}</td>
+                              <td>${formattedDate}</td>
+                              <td><button class="btn btn-primary view-order-btn" data-order-id="${order.id}">Siparişi Gör</button></td>
+                          </tr>`;
+                    ordersTable.append(row); // Tabloya yeni satırı ekle
                 });
 
-                pieChart.data.labels = labels;
-                pieChart.data.datasets[0].data = productCounts;
-                pieChart.update();
+                $('.view-order-btn').click(function () {
+                    const orderId = $(this).data('order-id');
+
+                    // Sipariş detaylarını almak için AJAX
+                    $.ajax({
+                        url: `/AdminLayout/Json5?orderId=${orderId}`,
+                        type: 'GET',
+                        success: function (orderDetails) {
+                            const detailsTable = $('#orderDetailsTable');
+                            detailsTable.empty(); // Önceki verileri temizle
+                            const products = JSON.parse(orderDetails);
+
+                            // Her bir ürünü modal popup'a ekle
+                            products.forEach(detail => {
+                                const product = detail.product;
+                                const row = `<tr>
+                                        <td><img src="${product.imageUrl}" width="100"></td>
+                                        <td>${product.name}</td>
+                                        <td>${product.price} ₺</td>
+                                        <td>${detail.quantity}</td>
+                                    </tr>`;
+                                detailsTable.append(row);
+                            });
+
+                            // Modal'ı aç
+                            $('#orderDetailsModal').modal('show');
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Detayları alırken hata oluştu: ' + status + ' ' + error);
+                        }
+                    });
+                });
             },
             error: function (xhr, status, error) {
                 console.error('AJAX Error: ' + status + error);
             }
         });
     });
+</script>
 
-   
 
-    // Zamanla Satış Trendleri Verisi
-    $(document).ready(function () {
-         $.ajax({
-        url: '/AdminLayout/Json6', // Buraya kendi controller ve action method URL'nizi koyun
-        method: 'GET',
-        success: function (response) {
+
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(() => {
+        var connection = new signalR.HubConnectionBuilder()
+            .withAutomaticReconnect()
+            .withUrl("https://localhost:7146/SignalRHub").build();
+
+        start();
+
+        function start() {
+            connection.start()
+                .then(function () {
+                    $("#loading").hide();
+
+                    setInterval(() => {
+                        connection.invoke("SendProgress");
+                    }, 1000);
+
+                    $("#conStatus").text("Bağlantı Açık");
+                })
+                .catch(function (err) {
+                    console.error(err.toString());
+                    $("#conStatus").text("Bağlantı Hatası");
+                    setTimeout(() => start(), 2000)
+                });
+        }
+
+
+        connection.onreconnecting(err => {
+            $("#loading").show();
+            $("#conStatus").text("Bağlantı Bekleniyor");
+            console.log("onreconnecting:" + err);
+        });
+
+        connection.onreconnected(connectionId => {
+            $("#loading").hide();
+            $("#conStatus").text("Bağlantı Başarılı");
+            console.log("connectionId:" + connectionId);
+
+        });
+
+        connection.onclose(() => {
+            $("#loading").hide();
+            $("#conStatus").text("Bağlantı Hatası");
+            Start();
+        });
+
+
+
+        connection.on("RecieveGetTodayTotalPrice", (count) => {
+            $("#totalToday").text(count.toFixed(2) + " ₺");
+        });
+        connection.on("RecieveGetTodayOrderCount", (count) => {
+            $("#totalTodayCount").text(count + " Adet");
+        });
+        connection.on("RecieveGetTopSellingProduct", (count) => {
+            $("#totalProduct").text(count);
+        });
+        connection.on("RecieveGetSellingProductCount", (count) => {
+            $("#totalSellingProductCount").text(count + " Adet");
+        });
+
+
+        // Pasta Grafiği Verisi
+        var pieData = {
+            labels: [], // Dinamik olarak doldurulacak
+            datasets: [{
+                data: [], // Dinamik olarak doldurulacak
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(153, 102, 255, 0.5)',
+                    'rgba(255, 159, 64, 0.5)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        var pieChart = new Chart(document.getElementById('pieChart'), {
+            type: 'pie',
+            data: pieData,
+            options: {
+                responsive: true
+            }
+        });
+
+        // SignalR'dan veri alındığında grafik güncellemesi yapılacak
+        connection.on("RecieveGetCategoriesWithProductCountAsync", (data) => {
+            var labels = [];
+            var productCounts = [];
+
+            data.forEach(function (category) {
+                labels.push(category.categoryName);
+                productCounts.push(category.productCount);
+            });
+
+            pieChart.data.labels = labels;
+            pieChart.data.datasets[0].data = productCounts;
+            pieChart.update();
+        });
+
+
+        connection.on("RecieveGetWeeklySalesReport", (data) => {
+            var parsedData = data; // Gelen veriyi SignalR'dan direkt olarak alıyoruz
+
+            // Günleri ve satılan ürün miktarlarını ayıkla
+            var labels = parsedData.map(function (item) {
+                var date = new Date(item.date); // Verilen tarihi Date formatına çevir
+                return date.toLocaleDateString('tr-TR', { weekday: 'long' }); // Pazartesi, Salı vb. günleri göster
+            });
+
+            var totalQuantitySold = parsedData.map(function (item) {
+                return item.totalQuantitySold;
+            });
+
+            // Haftalık satış çizgi grafiğini oluştur
+            var weeklySalesLineChart = new Chart(document.getElementById('weeklySalesLineChart'), {
+                type: 'line', // Çizgi grafiği tipi
+                data: {
+                    labels: labels, // Günler (Pazartesi - Pazar)
+                    datasets: [{
+                        label: 'Günlük Satılan Ürünler (Adet)',
+                        data: totalQuantitySold, // Satış miktarları
+                        backgroundColor: 'rgba(255, 159, 64, 0.5)',
+                        borderColor: 'rgba(255, 159, 64, 1)',
+                        borderWidth: 2,
+                        fill: true, // Çizginin altını doldur
+                        tension: 0.4 // Çizgiyi yumuşat
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true // Y ekseni sıfırdan başlasın
+                        }
+                    }
+                }
+            });
+        });
+
+        // Zamanla Satış Trendleri Verisi
+        connection.on("RecieveGetYearlySalesReport", (data) => {
             let jsonData;
+
             try {
-                jsonData = JSON.parse(response); // Gelen veriyi JSON olarak parse et
+                jsonData = data; // SignalR'dan gelen veriyi doğrudan kullanıyoruz
             } catch (error) {
-                console.error('JSON parse hatası:', error);
+                console.error('Veri işleme hatası:', error);
                 return;
             }
 
@@ -487,93 +540,10 @@ $(document).ready(function() {
                     responsive: true
                 }
             });
-        },
-        error: function (error) {
-            console.error('Veri çekme sırasında hata:', error);
-        }
+        });
+
+
+
+
     });
-    });
-
-    // Sipariş Verileri
-       $(document).ready(function () {
-      $.ajax({
-          url: '/AdminLayout/Json4', // Controller'daki doğru Action methodu
-          type: 'GET',
-          success: function (data) {
-              const ordersTable = $('#ordersTable'); // Tablonun referansını al
-    
-              // Gelen veriyi JSON formatına çevir
-              const orders = JSON.parse(data);
-    
-              // Verileri tabloya ekle
-              orders.forEach(order => {
-                  const orderDate = new Date(order.date);
-    
-                  // Yıl, ay ve gün değerlerini almak için formatla
-                  const formattedDate = orderDate.getFullYear() + '-' + 
-                  String(orderDate.getMonth() + 1).padStart(2, '0') + '-' + 
-                  String(orderDate.getDate()).padStart(2, '0');
-    
-    
-                  const discountAmount = order.discountAmount !== null ? order.discountAmount : '-';
-                  const discountPrice = order.discountPrice !== null ? order.discountPrice + ' ₺' : '-';
-                  const discountCode = order.discountCode !== "yok" ? order.discountCode : '-';
-    
-                  // Eğer discountPrice null değilse price'ı üzeri çizili yap ve discountPrice'ı göster
-                  const priceDisplay = order.discountPrice !== null 
-                      ? `<sup><del>${order.price} ₺</del></sup> ${order.discountPrice} ₺`
-                      : `${order.price} ₺`;
-    
-    
-                  const row = `<tr>
-                      <td>#${order.id}</td>
-                      <td>${discountAmount}</td>
-                      <td>${discountCode}</td>
-                      <td>${priceDisplay}</td>
-                      <td>${order.orderStatus}</td>
-                      <td>${formattedDate}</td>
-                      <td><button class="btn btn-primary view-order-btn" data-order-id="${order.id}">Siparişi Gör</button></td>
-                  </tr>`;
-                  ordersTable.append(row); // Tabloya yeni satırı ekle
-              });
-
-              $('.view-order-btn').click(function () {
-                const orderId = $(this).data('order-id');
-
-                // Sipariş detaylarını almak için AJAX
-                $.ajax({
-                    url: `/AdminLayout/Json5?orderId=${orderId}`,
-                    type: 'GET',
-                    success: function (orderDetails) {
-                        const detailsTable = $('#orderDetailsTable');
-                        detailsTable.empty(); // Önceki verileri temizle
-                        const products = JSON.parse(orderDetails);
-
-                        // Her bir ürünü modal popup'a ekle
-                        products.forEach(detail => {
-                            const product = detail.product;
-                            const row = `<tr>
-                                <td><img src="${product.imageUrl}" width="100"></td>
-                                <td>${product.name}</td>
-                                <td>${product.price} ₺</td>
-                                <td>${detail.quantity}</td>
-                            </tr>`;
-                            detailsTable.append(row);
-                        });
-
-                        // Modal'ı aç
-                        $('#orderDetailsModal').modal('show');
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Detayları alırken hata oluştu: ' + status + ' ' + error);
-                    }
-                });
-            });
-          },
-          error: function (xhr, status, error) {
-              console.error('AJAX Error: ' + status + error);
-          }
-      });
-    });
-      
 </script>

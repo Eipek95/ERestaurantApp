@@ -12,13 +12,15 @@ namespace SignalR.API_FoodAPI.Controllers
     {
         private readonly IOrderService _orderService;
         private readonly IProductService _productService;
+        private readonly ICartService _cartService;
         private readonly IMapper _mapper;
 
-        public OrderController(IOrderService orderService, IMapper mapper, IProductService productService)
+        public OrderController(IOrderService orderService, IMapper mapper, IProductService productService, ICartService cartService)
         {
             _orderService = orderService;
             _mapper = mapper;
             _productService = productService;
+            _cartService = cartService;
         }
 
         [HttpGet("TotalOrderCount")]
@@ -71,28 +73,21 @@ namespace SignalR.API_FoodAPI.Controllers
         [HttpGet("SaveRandomOrder")]
         public async Task<IActionResult> SaveRandomOrder()
         {
-
-            var userCart = new Dictionary<string, int>();
-            userCart.Add("61974125-e923-4a95-876d-3d1c4375e4e8", 1003);
-            userCart.Add("5a48a6c2-dbe5-4fca-8d0e-ffedfa7baa1a", 2005);
-
+            var carts = _cartService.BGetAll();
             var orders = new List<Order>();
-
             Random random = new Random();
             DateTime startDate = new DateTime(2024, 1, 1);
             DateTime endDate = new DateTime(2024, 9, 30);
             Array enumValues = Enum.GetValues(typeof(OrderEnum));
-
-
-            var userIds = new List<string>(userCart.Keys);
             var products = _productService.BGetAll();
-            var randomDate = GetRandomDate(startDate, endDate);
+            var randomDate = DateTime.Now.Date;
 
             //zamanı 10 kere değiştir
             for (int dateCount = 1; dateCount <= 10; dateCount++)
             {
-                var randomUserId = userIds[random.Next(userIds.Count)];
-                var randomCartId = userCart[randomUserId];
+                var userCart = carts[random.Next(0, carts.Count - 1)];
+                var randomUserId = userCart.UserId;
+                var randomCartId = userCart.Id;
                 var order = new Order();
                 decimal top = 0;
                 order.OrderDetails = new List<OrderDetail>();
@@ -101,10 +96,10 @@ namespace SignalR.API_FoodAPI.Controllers
                 for (int i = 1; i < 5; i++)
                 {
                     var randomQuantity = random.Next(1, 10);
-                    var selectedProduct = products[random.Next(1, 4)];
+                    var selectedProduct = products[random.Next(0, products.Count - 1)];
                     var isl = selectedProduct.Price * randomQuantity;
                     top += isl;
-                    //var selectedProduct = products[random.Next(1, 9)];
+
 
                     order.CartId = randomCartId;
                     order.Price = top;
@@ -145,7 +140,6 @@ namespace SignalR.API_FoodAPI.Controllers
                 await _orderService.BSaveOrder(order);
                 randomDate = GetRandomDate(startDate, endDate);
             }
-
 
             return Ok();
         }

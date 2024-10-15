@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Bogus;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -16,6 +17,7 @@ namespace SignalR.WEB_Food.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IHttpClientFactory _httpClientFactory;
+
 
         public RegisterController(UserManager<AppUser> userManager, IHttpClientFactory httpClientFactory)
         {
@@ -64,6 +66,39 @@ namespace SignalR.WEB_Food.Controllers
             ModelState.AddModelErrorList(result.Errors);
 
             return View();
+        }
+
+
+
+        public async Task<IActionResult> SaveAccount()
+        {
+            var faker = new Faker();
+            var password = "password123*";
+            int count = 0;
+            var client = _httpClientFactory.CreateClient();
+            for (int i = 0; i < 10; i++)
+            {
+                count++;
+                var firstName = faker.Name.FirstName();
+                var lastName = faker.Name.LastName();
+                var appUser = new AppUser
+                {
+                    Name = firstName,
+                    Surname = lastName,
+                    Email = faker.Internet.Email(firstName + $"{count}", lastName, "example.com"),
+                    UserName = "username" + count,
+                    Gender = Gender.Belirtilmedi,
+                    City = faker.Person.Address.City,
+                };
+
+                var result = await _userManager.CreateAsync(appUser, password);
+
+                if (result.Succeeded)
+                {
+                    var responseMessage2 = await client.GetAsync($"https://localhost:7146/api/Cart/InitializeCart?userId={appUser.Id}");
+                }
+            }
+            return Json("İşlem Başarıyla Gerçekleşti");
         }
     }
 }
